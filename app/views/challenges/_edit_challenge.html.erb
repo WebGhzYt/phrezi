@@ -1,0 +1,125 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit</h4>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body box-im">
+          <%= form_for(@edit_challenge, :html=> {:class=> 'form-horizontal'}, :remote=> true) do |f|%>
+            <div class="wrapper-div">
+              <div class="l-div"><h4 class="p-text">Scheduling</h4></div>
+              <div class="r-div">
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 c-label string required" for="">Start Date:</label>
+                  <div class="col-sm-5 string required">
+                    <%= f.text_field :start_date, value:(@active_challenges.start_date.strftime("%Y-%m-%d") if @active_challenges.present?), class: 'form-control string required datetimepicker-start', id:"edit_challenge_start_date"%>
+                  </div>
+                </div>
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 c-label string required" for="">Duration:</label>
+                  <div class="col-sm-8 string required">
+                    <div style="float: left; padding-left: 0px;" class="col-sm-6">
+                      <%= f.text_field :duration, value: "#{@active_challenges ? ((@active_challenges.end_date + 1.day) - @active_challenges.start_date).to_i/ 1.day : ''}", :class=>"form-control", id: "edit_challenge_duration"%>
+                    </div>
+                    <div style="float: left;">
+                      Days
+                    </div>
+                    <a href="##" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a>
+                  </div>
+                </div>
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 c-label string required" for="">End Date:</label>
+                  <div class="col-sm-8 string" id="edit_display_end_date">
+                    <% if @active_challenges.present? %>
+                      <%= @active_challenges.end_date.to_date %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 c-label string required" for="">Repeat:</label>
+                  <div class="col-sm-8 string required">
+                    <%= f.check_box :repeat %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wrapper-div">
+              <div class="l-div">
+              <h4 class="p-text">Number of Winners</h4>
+              <p class="p1-text">(% of all Participants)</p>
+              </div>
+              <div class="r-div h-div">
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 c-label string required" for="">Winner %:</label>
+                  <div class="col-sm-8 string required">
+                    <div class="col-sm-8" style="padding-left: 0px;">
+                      <%= f.text_field :challenge_winner, placeholder: 'Enter %',  class: 'form-control string percentage required',:onblur=>"edit_append_text_field(this);", id: "edit_challenge_winner"%>
+                    </div>
+                      <a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wrapper-div">
+              <div class="l-div">
+                <h4 class="p-text">Payout</h4>
+                <p class="p1-text">(% of gross sales)</p>
+              </div>
+              <div class="r-div">
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 c-label string required" for="">Prize %:</label>
+                  <div class="col-sm-8 string required">
+                    <div class="col-sm-8" style="padding-left: 0px;">
+                      <%= f.text_field :challenge_prize, placeholder: 'Enter %',  class: 'form-control string percentage required',:onblur=>"edit_append_text_field(this);", id: "edit_challenge_prize"%></div>
+                      <a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a>
+                  </div>
+                </div>
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 string required c-label" for="">Flat Rate %:</label>
+                  <div class="col-sm-8 string required">
+                    <div class="col-sm-8" style="padding-left: 0px;">
+                      <%= f.text_field :payout, placeholder: 'Enter %',  class: 'form-control string percentage required' ,:onblur=>"edit_append_text_field(this);", id: "edit_challenge_payout"%></div>
+                      <a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a>
+                  </div>
+                </div>
+
+                <%= f.hidden_field :win_differential, value: 10 %>
+                <span class="divider"></span>
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 col-sm-44 c-label string required" for="">Phrenzi Fee:</label>
+                  <div class="col-sm-8 string required">
+                    2%
+                  </div>
+                </div>
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 col-sm-44 c-label string required" for="">Total Payout:</label>
+                  <div class="col-sm-8 string required">
+                    <span id="edit_calculate_payout">
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-left: 45%;">
+              <div class="col-sm-8 col-sm-offset-4">
+                <button type="button" class="btn btn-default" style="color: black;" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modal-schedule">Update</button>  
+              </div>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
+
+
+

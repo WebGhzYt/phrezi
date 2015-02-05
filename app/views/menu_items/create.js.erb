@@ -1,0 +1,9 @@
+<% if !@menu_item.errors.present? %>
+  $("#menu_items").html("<%= escape_javascript(render :partial => 'menu_items/menu_items').html_safe %>");
+  $(".product-dropdown").html("<%= escape_javascript(render :partial => 'ballyhoos/boosters/product').html_safe %>");
+  $("#menu_items_validations").find('input, select').val('')
+  datatable()
+ <% else %>
+  var errors = <%= @menu_item.errors.full_messages.join(',') %>
+  alert(errors);
+<% end %>

@@ -1,0 +1,52 @@
+.setup-task
+  / .task-form
+  /   .form-group
+  /     label.control-label.col-sm-4 Activation Date*:
+  /     .col-sm-4
+  /       = f.text_field :start_date, :class => "form-control datepicker-start", readonly: "", id: "task_start_date"
+  /     .col-sm-4
+  /       .checkbox-inline
+  /         = f.check_box :ballyhoo_all_day
+  /         = ' All Day'
+
+  /   .task_time.hide
+  /     .form-group
+  /       label.control-label.col-sm-4 From/To*:
+  /       .col-sm-4
+  /         = f.text_field :start_time, class: 'form-control timepicker timepicker-start', placeholder: 'Start Time', id: 'task_start'
+  /       .col-sm-4
+  /         = f.text_field :end_time, class: 'form-control timepicker timepicker-end', placeholder: 'End Time', id: 'task_end'
+
+  /   .form-group
+  /     label.control-label.col-sm-4 Repeat*:
+  /     .col-sm-8
+  /       .checkbox-inline
+  /         input checked="checked" type="checkbox"
+  /           | Daily
+  /           a data-toggle="modal" href="#modal-repeat"  Edit
+
+
+  /   .form-group
+  /     label.control-label.col-sm-4 Audience:
+  /     .col-sm-4
+  /       = f.select :audience, options_for_select(CheckinBallyhoo.audience_types.each_with_index.map { |x,i| [x, i] }),{}, class: 'form-control', id: "check_audience", include_blank: false
+
+
+  /   .friend_qty.hide
+  /     .form-group
+  /       label.control-label.col-sm-4 Friends:
+  /       .col-sm-4
+  /         = f.number_field :friends, id: "check_friend", class: 'form-control'
+
+
+  /   .form-group
+  /     label.control-label.col-sm-4 Quantity Available:
+  /     .col-sm-4
+  /       = f.text_field :total_checkin_qty, class: 'form-control'
+
+
+  /   .form-group
+  /     label.control-label.col-sm-4 Limit/Person:
+  /     .col-sm-4
+  /       = f.number_field :limit_person, class: 'form-control'
+

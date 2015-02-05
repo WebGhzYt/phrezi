@@ -1,0 +1,21 @@
+nav.navbar.navbar-inverse[role="navigation"]
+  .container
+    .navbar-header
+      button.navbar-toggle[type="button" data-toggle="collapse" data-target=".navbar-collapse"]
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+    nav.navbar-collapse.collapse
+      = form_for(:user, url: session_path(:user), html: { class: "navbar-form navbar-right"}, :remote => true) do |f|
+        .form-group
+          .checkbox
+            label
+              input type="checkbox"
+              |  Remember Me
+        .form-group.marginLeft
+          = f.text_field :email, required: true, class: "form-control", placeholder: "Email"
+        .form-group.marginLeft
+          = f.password_field :password, required: true, class: "form-control", placeholder: "Password"
+        button.btn.btn-primary.marginLeft[type="Submit"] Sign in
+= render 'layouts/headeranon'

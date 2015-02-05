@@ -1,0 +1,80 @@
+<nav class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <% if user_signed_in? %>
+          <li class="dropdown">
+            <% if current_user.has_establishment_access? %>
+              <%if current_establishment.present? %>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_establishment.try(:name) %><span class="caret"></span></a>
+              <%end%> 
+              
+              <ul class="dropdown-menu" role="menu">
+                <%if current_establishment.present? %>
+                  <li><%= link_to 'Edit Establishment', edit_establishment_path(current_establishment)%></li>
+                <% end %>
+
+                <li><%= link_to "Edit User Profile", edit_user_registration_path %></li>
+                <li class="divider"></li>
+                  <% Establishment.all.each do |establishment|%>
+                    <li><%= link_to establishment.name, set_current_establishment_path(establishment), :method => :post%></li>
+                  <%end%>
+                <li class="divider"></li>
+                <li><%= link_to '+ New', new_establishment_path(Establishment.new) %></li>
+              </ul>
+            <% else %>
+              <%if current_user.establishments.present? %>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_establishment.try(:name) %><span class="caret"></span></a>
+              <%else%>
+                <%= link_to 'Create Establishment', new_establishment_path(Establishment.new) %>
+              <%end%>
+              <ul class="dropdown-menu" role="menu">
+                <%if current_user.establishments.present? %>
+                  <li><%= link_to 'Edit Establishment', edit_establishment_path(current_establishment)%></li>
+                <%end%>
+
+                <li><%= link_to "Edit User Profile", edit_user_registration_path %></li>
+                <li class="divider"></li>
+                <%if current_user%>
+                  <%current_user.establishments.each do |establishment|%>
+                    <li><%= link_to establishment.name, set_current_establishment_path(establishment), :method => :post%></li>
+                  <%end%>
+                <%end%>
+              <li class="divider"></li>
+              <li><%= link_to '+ New', new_establishment_path(Establishment.new) %></li>
+            </ul>
+          <%end%>
+          </li>
+          <% if establishment_loaded? %>
+            <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete, :remote => true%></li>
+          <% end %>
+        <% else %>
+          <li><%= link_to "Sign In" , new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <%= link_to root_path do %>
+          <%= image_tag "logo.png", :class=>"logo img-responsive"%>
+        <%end%>
+      </div>
+      <div class="col-md-6">
+
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,30 @@
+<div class="table-responsive">
+  <table class="table text-right">
+    <thead>
+      <tr>
+        <th class="text-right">First Name</th>
+        <th class="text-right">Last Name</th>
+        <th class="text-right">Email</th>
+        <th class="text-right">Employee Access</th>
+        <th class="text-right"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@employees.each do |employee|%>
+        <tr>
+          <td><a href="##"><%= employee.user ? employee.user.name ? truncate("#{employee.user.name}", length: 6) : '' : '' %></a></td>
+          <td><a href="##"><%= employee.user ? employee.user.last_name ? truncate("#{employee.user.last_name}", length: 6) : '' : '' %></a></td>
+          <td><%= employee.user ? truncate("#{employee.user.email}", length: 13) : '' %></td>
+          <td><%= truncate("#{employee.role}", length: 6) %></td>
+          <td>
+            <% if employee.user && employee.user.invited_to_sign_up? && !employee.user.invitation_accepted? %>
+            Pending
+            <% elsif employee.user != current_user %>
+            <a href="/employees/<%= employee.id %>" data-method="delete" data-remote="true"><button type="button" class="btn btn-primary btn-blue">Delete</button></a>
+            <%end%>
+          </td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,22 @@
+tr
+  td =ballyhoo.title
+  td =ballyhoo.description
+  - if ballyhoo.include_friends
+    td Include Friends
+    td =ballyhoo.total_checkin_qty
+  - else
+    td Patron Only
+    td N/A
+  td =ballyhoo.point_value
+  td =ballyhoo.start_date
+  td =ballyhoo.duration
+  td =ballyhoo.repeat_type
+  - if status == 'active'
+    td= link_to 'Pause', change_status_ballyhoo_path(id: ballyhoo.id, type: @ballyhoo_type), class: 'btn'
+  - elsif status == 'paused'
+    td= link_to 'Resume', change_status_ballyhoo_path(id: ballyhoo.id, type: @ballyhoo_type), class: 'btn'
+  - elsif status == 'upcoming'
+    td= link_to 'Edit', sti_ballyhoo_path(@ballyhoo_type, ballyhoo, 'edit')
+  - elsif status == 'archived'
+    td= link_to 'Copy', new_ballyhoo_path(ballyhoo_id: ballyhoo.id, type: @ballyhoo_type), class: 'btn'
+    

@@ -1,0 +1,6 @@
+<div class="form-group row-2" id="product_category">
+  <label class="control-label col-sm-4">Product</label>
+  <div class="col-sm-4">
+    <%= select_tag "product", options_for_select(Ballyhoo.collect_products(current_establishment)), {prompt: 'Please select product', class: 'form-control'} %>
+  </div>
+</div>

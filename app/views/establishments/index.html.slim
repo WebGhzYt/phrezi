@@ -1,0 +1,22 @@
+h1
+  |  Your Establishment
+  span.pull-right
+    = new_btn(Establishment.new)
+table.table.table-hover
+  thead
+    tr
+      th Name
+
+      th Phone
+      th Gps lat
+      th Gps long
+      th
+  tbody
+    - @establishments.each do |establishment|
+      tr(data-href=edit_establishment_path(establishment))
+        td= establishment.name
+       
+        td= establishment.phone
+        td= establishment.gps_lat
+        td= establishment.gps_long
+        td= destroy_btn(establishment)

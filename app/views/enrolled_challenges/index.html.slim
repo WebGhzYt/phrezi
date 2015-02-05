@@ -1,0 +1,23 @@
+h1
+  | Listing Enrolled challenges
+  span.pull-right
+    - el = EnrolledChallenge.new(challenge_id: @challenge.id)
+    = new_btn(el, [@challenge, el])
+
+table.table
+  thead
+    tr
+      th Challenge
+      th Patron
+      th Current points
+      th
+
+  tbody
+    - @enrolled_challenges.each do |enrolled_challenge|
+      = row_for([@challenge, enrolled_challenge])
+        td = enrolled_challenge.challenge
+        td = enrolled_challenge.patron_id
+        td = enrolled_challenge.current_points
+        td
+          => edit_btn(enrolled_challenge, [@challenge, enrolled_challenge])
+          => destroy_btn(enrolled_challenge, [@challenge, enrolled_challenge])

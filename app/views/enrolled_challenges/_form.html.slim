@@ -1,0 +1,4 @@
+= simple_form_for [@challenge, @enrolled_challenge], html: {class: 'form-horizontal'} do |f|
+  = f.association :patron
+  = f.input :current_points
+  = f.submit 'Save', class: 'btn btn-primary'

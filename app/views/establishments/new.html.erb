@@ -1,0 +1,14 @@
+<section class="establishment-setup">
+  <div class="container">
+    <div class="establishment-wrap marginTop1">
+      <h2>Establishment Setup</h2>
+      <%= render :partial => "form" %>
+    </div>
+  </div>
+</section>
+
+<script>
+<%if !params[:msg].blank? %>
+    new_establish = "Please create an establishment to access rest of this site."
+<%end%>
+</script>

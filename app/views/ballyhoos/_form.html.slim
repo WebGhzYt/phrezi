@@ -1,0 +1,17 @@
+= simple_form_for(@ballyhoo) do |f|
+    = f.error_notification
+
+    = f.input :title
+    = f.input :description
+    - if @ballyhoo_type == "CheckinBallyhoo"
+        = f.input :audience, collection: CheckinBallyhoo.audience_types.each_with_index.map { |x,i| [x, i] }, include_blank: false, selected: @ballyhoo.include_friends ? '1' : '0'
+        = f.input :total_checkin_qty, label: 'Number of Friends', wrapper_html: { class:  @ballyhoo.include_friends ? '' : 'hide' }
+    = f.input :point_value
+    = f.input :start_date, as: :date_picker
+    = f.input :ballyhoo_all_day, as: :boolean
+    = f.input :start_time
+    = f.input :end_time
+    = f.input :repeat_type, collection: Ballyhoo.recurring_types.each_with_index.map { |x,i| [x, i] }, include_blank: false
+    = f.input :end_repeat, as: :date_picker
+    = f.input :ballyhoo_type, as: :hidden
+    = f.button :submit

@@ -1,0 +1,12 @@
+-use_table = defined?(use_table) ? use_table:false
+= simple_form_for product || Product.new, :html => { :class => 'form-inline' } do |f|
+  =content_holder(use_table, {class: "col-md-3"}) do
+    = f.input :name, input_html: {style: "width: 200px"}
+  =content_holder(use_table, {class: "col-md-3"}) do
+    = f.input :product_category_id, as: :select, collection: current_establishment.product_categories, label: "category", input_html: { style: "width: 50px;"}
+  =content_holder(use_table, {class: "col-md-3"}) do
+    = f.input :price, input_html: {style: "width: 60px"}
+  =content_holder(use_table, {class: "col-md-1"}) do
+    = f.input :active
+  =content_holder(use_table, {class: "col-md-1"}) do
+    = f.button :submit, button_html: { style: "margin-left: 20px"}

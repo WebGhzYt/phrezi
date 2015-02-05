@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    meta[charset="utf-8"]
+    meta content="IE=edge" http-equiv="X-UA-Compatible"
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    title
+      | Phrenzi
+    = stylesheet_link_tag :application, :media => 'all'
+
+    = csrf_meta_tags
+  body
+    - if (controller_name != 'home' && controller_name != 'client_app' && controller_name != 'sessions' && controller_name != 'registrations' && controller_name != 'confirmations' && controller_name != 'passwords' && controller_name != 'invitations')
+      = render 'layouts/navigation'
+    - elsif (controller_name == 'registrations' && current_user.present?)
+      = render 'layouts/navigation'
+    - elsif (controller_name == 'registrations' && current_user.blank?)
+      = render 'layouts/navbar'
+    - else
+      = render 'layouts/signinnav' if (controller_name == 'home') || (controller_name == 'sessions') || (controller_name == 'passwords') || (controller_name == 'confirmations') || (controller_name == 'invitations')
+    /= render 'flashes'
+    = yield
+
+    footer
+      .container
+        .row
+          .col-sm-6
+            p.copyright
+              | &copy; 2014 Phrenzi.  All Rights Reserved.
+          .col-sm-6
+            .icons.pull-right
+              a[href="/"]
+                i.fa.fa-home
+              a[href="/about"]
+                i.fa.fa-info-circle
+              a[href="mailto:info@phrenzi.com?Subject=Website%20Info"]
+                i.fa.fa-envelope-o
+              a[href="https://www.facebook.com/phrenzi"]
+                i.fa.fa-facebook-square
+              a[href="http://www.twitter.com"]
+                i.fa.fa-twitter-square
+  
+  = render 'javascript'
+
+= render 'layouts/errors'
+= render 'layouts/flash'
+= render 'layouts/map_error'

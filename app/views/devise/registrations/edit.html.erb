@@ -1,0 +1,117 @@
+<section class="booster-setup top122">
+  <div class="container">
+    <div class="booster-setup-wrap">
+      <div class="content">
+        <div class="panel-group" id="accordion">
+          <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put,:class=>"panel panel-default"} , :remote=>true) do |f| %>
+            <div class="panel-heading">
+              <div class="col-sm-6">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    User Account Setup
+                  </a>
+                </h4>
+              </div>
+              <div class="col-sm-6">
+              </div>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+
+              <div class="panel-body" id="acc-reg">
+                <table class="table">
+                  <tr>
+                    <td style="width: 80%;">
+                      <div class="form-group">
+                        <label class="control-label col-sm-4">First Name</label>
+                        <div class="col-sm-8">
+                          <%= f.text_field :name, :class => "form-control"%>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-4">Last Name</label>
+                        <div class="col-sm-8">
+                          <%= f.text_field :last_name, :class => "form-control"%>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-sm-4">Current Password</label>
+                        <div class="col-sm-8">
+                          <%= f.password_field :current_password, :autocomplete => "off" ,:required => true, :class => "form-control", :placeholder => "Required to save any changes"%>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-sm-4">New Password</label>
+                        <div class="col-sm-8">
+                          <%= f.password_field :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false, :class => "form-control"%>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-4">Confirm New Password</label>
+                        <div class="col-sm-8">
+                          <%= f.password_field :password_confirmation, :required => false, :class => "form-control"%>
+                        </div>
+                      </div>
+                      <hr>
+                      <%= f.fields_for :address do |a| %>
+                        <div class="form-group">
+                          <label class="control-label col-sm-4">Address (line 1)</label>
+                          <div class="col-sm-8">
+                            <%= a.text_field :street1 , :class => "form-control" %>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-sm-4">Address (line 2)</label>
+                          <div class="col-sm-8">
+                            <%= a.text_field :street2 , :class => "form-control" %>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-sm-4">City</label>
+                          <div class="col-sm-8">
+                            <%= a.text_field :city , :class => "form-control" %>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-sm-4">State</label>
+                          <div class="col-sm-2">
+                            <%= a.collection_select :state, Address.all, :id, :state, {prompt: "Select state"}, {class: "form-control"} %>
+                            </div>
+                            <label class="control-label col-sm-4">Zip</label>
+                            <div class="col-sm-2">
+                              <%= a.text_field :postal , :class => "form-control" %>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-sm-4">Country</label>
+                            <div class="col-sm-8">
+                              <%= a.country_select :country, {priority: %w(US CA), prompt: 'Please select a country'}, {class: "form-control"} %>
+                              </div>
+                            </div>
+                          <%end%>
+                        </td>
+                        <td>
+                          <div class="upload_button"><%= f.file_field :avatar, as: :hidden, "style" => "display:none"%></div>
+                          <div class="upload_preview">
+                            <%= button_tag "Upload image", type: 'button', id:'upload_btn', class: 'btn btn-primary'%>
+                              <%= image_tag resource.avatar.url, :size => "291x246"%>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                      <p class="text-right">
+                        <%= link_to root_path do %>
+                          <button type="button" class="btn btn-default" id="cancel_establishment_btn" style="margin-right: 5px;">Cancel</button>
+                        <%end%>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                      </p>
+                    </div>
+
+                  </div>
+                <%end%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>

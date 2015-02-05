@@ -1,0 +1,54 @@
+.setup-checkin
+  / .checkin-form
+  /   .form-group
+  /     label.control-label.col-sm-4 Start*:
+  /     .col-sm-4
+  /       .input-group data-date=Date.today.strftime("%d-%m-%Y") data-date-format="dd-mm-yyyy"
+  /         = f.text_field :start_date, :class => "form-control datepicker-start", readonly: "", id: "check_start_date"
+  /         span.input-group-addon.date
+  /           i.fa.fa-calendar
+      
+  /     .col-sm-4
+  /       = f.text_field :start_time, class: 'form-control timepicker timepicker-start', placeholder: 'Start Time'
+
+  /   .form-group
+  /     label.control-label.col-sm-4 End*:
+  /     .col-sm-4
+  /       .input-group data-date=Date.today.strftime("%d-%m-%Y") data-date-format="dd-mm-yyyy" 
+  /         = f.text_field :end_repeat, :class => "form-control datepicker-end", readonly: "", id: "check_end_date"
+  /         span.input-group-addon.date
+  /           i.fa.fa-calendar
+      
+  /     .col-sm-4
+  /       = f.text_field :end_time, class: 'form-control timepicker timepicker-end', placeholder: 'End Time'
+
+
+  /   .form-group
+  /     label.control-label.col-sm-4 Repeat*:
+  /     .col-sm-8
+  /       .checkbox-inline
+  /         input checked="checked" type="checkbox"
+  /           | Daily
+  /           a data-toggle="modal" href="#modal-repeat"  Edit
+
+  /   .form-group
+  /     label.control-label.col-sm-4 Audience:
+  /     .col-sm-4
+  /       = f.select :audience, options_for_select(CheckinBallyhoo.audience_types.each_with_index.map { |x,i| [x, i] }),{}, class: 'form-control', id: "check_audience", include_blank: false
+
+  /   .friend_qty.hide
+  /     .form-group
+  /       label.control-label.col-sm-4 Friends:
+  /       .col-sm-4
+  /         = f.number_field :friends, id: "check_friend", class: 'form-control'
+
+  /   .form-group
+  /     label.control-label.col-sm-4 Quantity Available:
+  /     .col-sm-4
+  /       = f.text_field :total_checkin_qty, class: 'form-control'
+
+  /   .form-group
+  /     label.control-label.col-sm-4 Limit/Person:
+  /     .col-sm-4
+  /       = f.select :limit_person, options_for_select(CheckinBallyhoo.limit_types.each_with_index.map { |x,i| [x, i] }),{}, class: 'form-control'
+

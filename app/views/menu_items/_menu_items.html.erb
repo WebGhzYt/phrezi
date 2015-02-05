@@ -1,0 +1,22 @@
+<div class="table-responsive">
+  <table class="table" id="menu_items_table">
+    <thead>
+      <tr>
+        <th>Menu Item</th>
+        <th>Category</th>
+        <th>Price($)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@menu_items.each do |item|%>
+        <tr>
+          <td style="width:30%"><%= item.name %></td>
+          <td style="width:30%"><%= item.category %></td>
+          <td style="width:20%"><%= item.price %></td>
+          <td style="width:20%"><button class="btn btn-primary" type="button" id="<%= item.id%>" onclick="delete_menu_item(this);">Delete</button></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>

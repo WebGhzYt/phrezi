@@ -1,0 +1,20 @@
+h1
+  | Listing employees
+  span.pull-right
+    = new_btn(current_establishment.employees.build)
+table.table.table-hover
+  thead
+    tr
+      th User
+      th Role
+      th Enabled
+      th
+  tbody
+    - @employees.each do |employee|
+      = row_for(employee)
+        td= employee.user
+        td= employee.role
+        td= employee.enabled.humanize
+        td
+          => edit_btn(employee)
+          => destroy_btn(employee)

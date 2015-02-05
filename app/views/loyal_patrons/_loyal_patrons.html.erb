@@ -1,0 +1,25 @@
+<h4>Loyal Patrons</h4>
+<div class="table-responsive patrol-loyals-tbl">
+  <table class="table" id="patrons-table">
+    <thead>
+    <th width="40">Pos</th>
+    <th  width="80">Profile</th>
+    <th>Name</th>
+    <th>Income</th>
+    <th>Points</th>
+    <th>Credit</th>
+    </thead>
+    <tbody>
+      <%@loyal_patrons.each_with_index do |p,index|%>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td class="patron-ava"><a href="##" id="<%= p.id %>" onclick="show_loyal_patron(this);"><%= image_tag "ava.jpg" %></a></td>
+          <td><%= p.name %></td>
+          <td>$<%= p.income %></td>
+          <td><%= LoyalPatron.points(@active_challenges.id,p.id) %></td>
+          <td><%= p.credit %></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>

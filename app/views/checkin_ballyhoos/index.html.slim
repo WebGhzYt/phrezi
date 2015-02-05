@@ -1,0 +1,32 @@
+h1
+  | Listing Checkin Ballyhoos
+  span.pull-right
+    = new_btn(CheckinBallyhoo.new(establishment_id: current_establishment.id))
+
+table.table.table-hover
+  thead
+    tr
+      th Include friends
+      th Friends sync
+      th Total checkin qty
+      th Point value
+      th Ballyhoo Start
+      th Ballyhoo End
+      th End repeat
+      th Establishment
+      th
+
+  tbody
+    - @checkin_ballyhoos.each do |checkin_ballyhoo|
+      = row_for(checkin_ballyhoo)
+        td = checkin_ballyhoo.include_friends
+        td = checkin_ballyhoo.friends_sync
+        td = checkin_ballyhoo.total_checkin_qty
+        td = checkin_ballyhoo.point_value
+        td = checkin_ballyhoo.ballyhoo_start
+        td = checkin_ballyhoo.ballyhoo_end
+        td = checkin_ballyhoo.end_repeat
+        td = checkin_ballyhoo.establishment
+        td = edit_btn(checkin_ballyhoo)
+        td = destroy_btn(checkin_ballyhoo)
+

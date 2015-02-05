@@ -1,0 +1,17 @@
+= simple_form_for(@ballyhoo) do |f|
+    = f.error_notification
+
+    = f.input :title, input_html: { value: @copied_ballyhoo.title }
+    = f.input :description, input_html: { value: @copied_ballyhoo.description }
+    - if @ballyhoo_type == "CheckinBallyhoo"
+        = f.input :audience, collection: CheckinBallyhoo.audience_types.each_with_index.map { |x,i| [x, i] }, include_blank: false, selected: @copied_ballyhoo.include_friends ? '1' : '0'
+        = f.input :total_checkin_qty, label: 'Number of Friends', wrapper_html: { class:  @copied_ballyhoo.include_friends ? '' : 'hide' }, input_html: { value: @copied_ballyhoo.total_checkin_qty }
+    = f.input :point_value, input_html: { value: @copied_ballyhoo.point_value }
+    = f.input :start_date, as: :date_picker, input_html: { class: 'copied_start_date' }
+    = f.input :ballyhoo_all_day, as: :boolean, input_html: { checked: @copied_ballyhoo.ballyhoo_all_day }
+    = f.input :start_time, selected: @copied_ballyhoo.start_time
+    = f.input :end_time, selected: @copied_ballyhoo.end_time
+    = f.input :repeat_type, collection: Ballyhoo.recurring_types.each_with_index.map { |x,i| [x, i] }, include_blank: false, :selected => @copied_ballyhoo.repeat_type 
+    = f.input :end_repeat, as: :date_picker, input_html: { value: @copied_ballyhoo.end_repeat }
+    = f.input :ballyhoo_type, as: :hidden, input_html: { value: @copied_ballyhoo.ballyhoo_type }
+    = f.button :submit

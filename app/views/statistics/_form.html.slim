@@ -1,0 +1,27 @@
+= form_for(:challenge, url: statistics_calculate_path , html: { class: "form-horizontal"}) do |f|
+  | Challenge Details
+  .form-group
+    = f.label :challenge_prize, class: "col-sm-3 control-label"
+    .col-sm-5
+      = f.number_field :challenge_prize, required: true, autofocus: true, class: "form-control", placeholder: "% of all Gross Sales"
+  .form-group
+    = f.label :challenge_winner, class: "col-sm-3 control-label"
+    .col-sm-5
+      = f.number_field :challenge_winner, required: true, class: "form-control", placeholder: "% of participants to be winners"
+  .form-group
+    = f.label :win_differential, class: "col-sm-3 control-label"
+    .col-sm-5
+      = f.number_field :win_differential, required: true, class: "form-control", placeholder: "% difference between winner tiers"
+  | Challenge Inputs
+  .form-group
+    label.col-sm-3.control-label Current Participants
+    .col-sm-5
+      input.form-control[placeholder="Number of current participing patrons" name="patrons" type="number"]
+  .form-group
+    = f.label :gross_sales, class: "col-sm-3 control-label"
+    .col-sm-5
+      = f.number_field :gross_sales, required: true, class: "form-control", placeholder: "Current Gross Sales"
+
+  .form-group
+    .col-sm-offset-3.col-sm-5
+      = f.submit "Calculate Payouts", :class => "btn btn-default btn-yellow"

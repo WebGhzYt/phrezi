@@ -1,0 +1,8 @@
+h1 New #{@ballyhoo_type.capitalize}
+
+- if @copied_ballyhoo.nil?
+	== render 'form'
+- else
+	== render 'copy_form'
+
+= link_to 'Cancel', sti_ballyhoo_path(@ballyhoo_type)

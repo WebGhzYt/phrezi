@@ -1,0 +1,56 @@
+.row
+  h3
+    | Products
+  
+.row
+  table.table.table-hover.table-striped[style="border: 1px solid #DDDDDD; margin: auto; width: 90%"]
+    thead
+      tr
+        th Item
+        th Category
+        th Price
+        th Active
+        th
+    tbody
+      - @products.each do |product|
+        -unless product.new_record?
+          tr.product-viewing
+            td.col-md-3= product.name
+            td.col-md-3= product.product_category.name
+            td.col-md-3= product.price
+            td.col-md-1= check_box_tag "product[active]", product.active, product.active, disabled: true
+            td.col-md-2
+              = link_to 'Edit', "#", class: 'btn btn-success product-edit', id: "product-#{product.id}"
+              = link_to 'Delete', product_path(product),class: 'btn ', method: :delete,data: { confirm: 'Are you sure to delete this product?' }
+          tr.product-editing[id="product-edit-#{product.id}" style="display:none"]
+            =render partial: 'form', locals: {product: product, use_table: true}
+
+            
+.row[style="margin-top: 20px"]
+  = render partial: 'form', locals: {product: @product}
+
+
+.row
+  h3
+    | Categroies
+
+.row
+  table.table.table-hover.table-striped[style="border: 1px solid #DDDDDD; margin: auto; width: 70%"]
+    thead
+      tr
+        th Categories
+        th Default Points
+        th
+    tbody
+      - current_establishment.product_categories.each do |category|
+        - unless category.new_record?
+          tr.category-viewing
+            td= category.name
+            td= category.default_points
+            td
+              = link_to 'Edit', "#", class: 'btn btn-success category-edit', id: "category-#{category.id}"
+              = link_to 'Delete', product_category_path(category), method: :delete, data: { confirm: "Are you sure to delete this category? Please note all the associated products will be deleted too."}, class: "btn"
+          tr.category-editing[id="category-edit-#{category.id}" style="display:none"]
+            = render partial: 'product_categories/form', locals: {category: category, use_table: true}
+.row[style="margin-top: 20px"]
+  = render partial: 'product_categories/form', locals: {category: @product_category}

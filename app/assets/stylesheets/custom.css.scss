@@ -1,0 +1,369 @@
+a:hover,
+a:focus {
+  text-decoration: none;
+  outline: 0;
+}
+
+.navbar {
+}
+.wrap-content.logged-in {
+  margin-top: 80px;
+}
+
+#calendar {
+  margin: 0;
+}
+
+.challenge-setup .challenge-setup-wrap .content .panel-group {
+  background: #fff;
+}
+
+.challenge-setup .challenge-setup-wrap {
+  background: none;
+}
+
+.panel-group .panel-heading+.panel-collapse>.panel-body.box-im {
+  height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.box-im {
+  height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.panel-group .panel-heading+.panel-collapse>.panel-body.box-im:hover {
+  
+}
+
+
+.sidebar {
+  position: relative;
+}
+#sidebar-setting {
+  padding: 0;
+}
+
+.setting-header {
+  text-align: center;
+}
+
+.setting-box {
+  max-height: 427px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.setting-box-calender{
+  max-height: 530px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.setting-box-finance{
+  max-height: 360px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.setting-box-min-height{
+  height: 320px;
+}
+
+.setting-box-finance_fix{
+  min-height: 360px;
+}
+
+
+.setting-box:hover{
+  
+}
+
+.setting-header a {
+  font-size: 30px;
+  color: #111;
+  padding: 25px 10px;
+  display: inline-block;
+  line-height: 1;
+  height: 80px;
+}
+
+.setting-header a:hover,
+.setting-header a.setting-active {
+  text-shadow: 0 0 15px #fff;
+  -moz-text-shadow: 0 0 15px #fff;
+  -webkit-text-shadow: 0 0 15px #fff;
+}
+
+.setting-header a:focus {
+  outline: 0;
+}
+
+#sidebar-setting li.panel {
+  display: inline-block;
+  background: none;
+  border: 0;
+  padding: 0 20px;
+  text-align: left;
+}
+
+#sidebar-setting li.panel .setting-btn {
+  font-size: 36px;
+
+}
+
+#sidebar-setting li.panel a.setting-btn  {
+  color: #000;
+}
+
+#sidebar-setting li.panel a.setting-btn:hover,
+#sidebar-setting li.panel a.setting-btn{
+  color: #000;
+  text-shadow: 0 0 15px #fff;
+}
+#sidebar-setting li.panel a.setting-btn.collapsed {
+  text-shadow: none;
+}
+
+#sidebar-setting li.panel .setting-btn {}
+
+.sideout-btn .fa-angle-left,
+.sideout-btn-1 .fa-angle-left,
+.sideout-statistic-btn .fa-angle-left {
+  display: none;
+}
+
+.sideout-btn.show-ct .fa-angle-left,
+.sideout-btn-1.show-ct .fa-angle-left,
+.sideout-statistic-btn.show-ct .fa-angle-left {
+  display: inline-block;
+}
+
+.sideout-btn.show-ct .fa-angle-right,
+.sideout-btn-1.show-ct .fa-angle-right,
+.sideout-statistic-btn.show-ct .fa-angle-right  {
+  display: none;
+}
+
+/*Setting wrap*/
+.setting {
+  margin-top: -50px;
+}
+
+.setting .nav-tabs {
+  border-bottom: 7px solid #fff;
+}
+
+.setting .nav-tabs li {}
+.setting .nav-tabs li a{
+  font-size: 24px;
+  background: #ccc;
+  font-weight: bold;
+  border-color: #ccc;
+  color: #333;
+  padding-left: 80px;
+  padding-right: 80px;
+  margin-right: 0px;
+  border-radius: 0;
+}
+
+.setting .nav-tabs li:hover a {
+  background: #eee;
+  color: #fea700;
+}
+
+.setting .nav-tabs li.active a{
+  color: #fea700;
+  font-weight: bold;
+  background: #fff;
+  border-color: #fff;
+}
+
+
+
+.setting .nav-tabs li:first-child a{
+  border-radius: 10px 0 0 0;
+  -moz-border-radius: 10px 0 0 0;
+  -webkit-border-radius: 10px 0 0 0;
+}
+
+.setting .nav-tabs li:last-child a {
+  border-radius: 0 10px 0 0;
+  -moz-border-radius: 0 10px 0 0;
+  -webkit-border-radius: 0 10px 0 0;
+}
+
+.setting .panel-heading.title-lvl-1{
+  border-radius: 0;
+  background: #6ab5d5;
+  color: #fff;
+}
+
+.setting .panel-group .panel {
+  border: 0;
+  border-radius: 0;
+}
+
+.setting .panel-group .panel .panel-heading.title-lvl-1 .panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 36px;
+  color: inherit;
+  padding-left: 20px;
+}
+
+.setting .panel-group .panel .panel-heading.title-lvl-1 .panel-title a {
+  color: #fff;
+}
+
+.setting .panel-group .panel .panel-heading.title-lvl-1 .panel-title a.sideout-btn,
+.setting .panel-group .panel .panel-heading.title-lvl-1 .panel-title a.sideout-btn-1 {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 0 5px;
+}
+
+.container-setting {
+  padding: 0;
+  background: #358AFC;
+}
+.sidebar {
+  margin-left: -25px;
+}
+
+#sidebar-setting .panel-body {
+  padding: 0;
+}
+
+#sidebar-setting .panel-body .panel-body {
+  padding: 10px;
+  font-size: 13px;
+}
+
+#sidebar-setting .panel-body .panel-body .btn {
+  font-size: 13px;
+  padding: 6px;
+  line-height: 1;
+}
+
+#sidebar-setting .panel-group .panel {
+  border: 0;
+  border-radius: 0;
+}
+
+#sidebar-setting  .panel-default>.panel-heading {
+  border-radius: 0;
+  border: 0;
+  background: #6ab5d5;
+}
+#sidebar-setting  .panel-default>.panel-heading a {
+  color: #fff;
+}
+#setting-3.setting-panel,
+#setting-2.setting-panel {
+  background: #fff;
+  font-size: 13px;
+  padding: 10px;
+}
+
+#projection-box,
+#statistic-box,
+#projection-box-1 {
+  background: #419fff;
+  color: #fff;
+  font-size: 13px;
+  top: 70px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  position: absolute;
+  bottom: 0;
+}
+
+#projection-box h3,
+#statistic-box h3,
+#projection-box-1 h3 {
+  background: #fea700;
+  text-align: center;
+  padding: 15px;
+  color: #fff;
+}
+
+.sideout-statistic-btn {
+  border: 2px solid;
+  border-radius: 5px;
+  color: #222;
+  padding: 5px;
+}
+
+.col-sm-8.string.required {
+  position: relative;
+  padding-right: 50px;
+}
+
+.col-sm-8.string.required .thetooltip {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#modal-edit-select.modal .modal-dialog .modal-body {
+  background: #fff;
+  color: #444;
+}
+
+
+.form-control.dp {
+  background-image: url(../assets/dp.png);
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.datepicker .datepicker-days  td.day {
+  cursor: pointer;
+}
+
+.datepicker .datepicker-days  td.day:hover {
+  background: #eee;
+}
+
+.datepicker .datepicker-days td.day.active {
+  background: #007BFA;
+  color: #fff;
+}
+#address-map{
+  max-width: 200px !important;
+  max-height: 200px !important;
+  margin: 20px auto !important;
+  padding-top: 198px !important;
+}
+
+#active_challenge_main_div h3{
+  font-weight: 600 !important;
+  font-size: 20px !important;
+}
+.active_challenge_heading h4{
+  font-weight: 500 !important;
+  font-size: 20px !important;
+  color: #888888 !important;
+}
+.box-im-booster{
+  min-height: 470px !important;
+}
+
+.pretty div .current {
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.pretty div .asc {
+  background-image: url(/assets/up_arrow.png);
+}
+
+.pretty div .desc {
+  background-image: url(/assets/down_arrow.png);
+}
+

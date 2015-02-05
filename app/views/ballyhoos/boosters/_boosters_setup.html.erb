@@ -1,0 +1,363 @@
+<div id="form-load">
+  <%= form_for(@ballyhoo, :remote=> true, :html=> {:class=> 'form-horizontal'}) do |f|%>
+    <div class="panel-body box-im-booster box-im">
+      <div class="col-xs-12 main">
+        <div class="col-sm-12 main booster-setup-content">
+          <div class="form-group">
+            <label class="control-label col-sm-4">Type*:</label>
+            <div class="col-sm-4">
+              <%= f.select :ballyhoo_type, options_for_select([['Check In', 'CheckinBallyhoo'], ['Purchase', 'PurchaseBallyhoo'], ['Task', 'TaskBallyhoo']],f.object.ballyhoo_type ), {prompt: 'Please select'}, class: 'form-control ballyhoo_type_selector'%>
+            </div>
+            <div class="col-sm-4">
+              <a href="#"><%= image_tag "ico-stored.gif"%></a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">Booster Name*:</label>
+            <div class="col-sm-4">
+              <%= f.text_field :title, :class=>"form-control"%>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-4">Activation Date*:</label>
+            <div class="col-sm-4">
+              <%= f.text_field :start_date, :class => "form-control datepicker-start", id: "check_start_date"%>
+            </div>
+            <div class="col-sm-4">
+              <label class="checkbox">
+                <%= f.check_box :all_day, :onclick=>"hide_to_from(this);" ,:id=>"ballyhoo_all_day" %> All day
+              </label>
+            </div>
+          </div>
+          <div class="form-group row-6" id="from_to">
+            <label class="control-label col-sm-4">From/To*:</label>
+            <div class="col-sm-4">
+              <%= f.text_field :start_time, value: @ballyhoo.try(:start_time).try(:in_time_zone, current_establishment.timezone.to_i).try(:strftime, "%H:%M"), class: 'form-control timepicker timepicker-start', :id=>"ballyhoo_start_time", placeholder: 'Start Time',:required=>true%>
+            </div>
+            <div class="col-sm-4">
+              <%= f.text_field :end_time, value: @ballyhoo.try(:end_time).try(:in_time_zone, current_establishment.timezone.to_i).try(:strftime, "%H:%M"), class: 'form-control timepicker timepicker-start',:id=> "ballyhoo_end_time", placeholder: 'End Time',:required=>true%>
+            </div>
+          </div>
+          <div class="form-group row-6">
+            <label class="control-label col-sm-4">Repeat:</label>
+            <div class="col-sm-8">
+              <label class="checkbox">
+                <input id="ballyhoo_repeat" type="checkbox" value="1" name="repeat_type"></input>
+                <span id="duration"><%= !@ballyhoo.end_repeat ? (@ballyhoo.repeat_type == 3 ? "Never" : "" ) : (@ballyhoo.repeat_type == 0 ? "Daily" : "Weekly") %></span>
+                <a href="#modal-repeat" data-toggle="modal" id="duration_anchor" data-backdrop="static">Edit</a>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group row-4" id="audience">
+            <label class="control-label col-sm-4">Audience:</label>
+            <div class="col-sm-4">
+              <%= f.select :audience, options_for_select(CheckinBallyhoo.audience_types.each_with_index.map { |x,i| [x, i] }),{}, class: 'form-control', id: "check_audience", include_blank: false%>
+            </div>
+          </div>
+          <div class="form-group row-4" id="friends">
+            <label class="control-label col-sm-4">Friends:</label>
+            <div class="col-sm-4">
+              <%= f.number_field :friends, :value => 0, id: "check_friend", class: 'form-control'%>
+            </div>
+          </div>
+          
+          <% is_unlimited = check_available_quantity(@ballyhoo) %>
+          
+          <div class="form-group">
+            <div class="quantity_div <%= is_unlimited.nil? ? '' : (is_unlimited == false ? '' : 'hide' ) %>">
+              <label class="control-label col-sm-4">Quantity Available:</label>
+              <div class="col-sm-4">
+                <%=text_field_tag "total_checkin_qty", @ballyhoo.total_checkin_qty, class: 'form-control', placeholder: 'Enter numbers', required: true %>
+              </div>
+            </div>
+            
+            <div class="quantity_div_f <%= is_unlimited.nil? ? 'hide' : (is_unlimited == false ? 'hide' : '' ) %>">
+              <label class="control-label col-sm-4">Quantity Available:</label>
+              <div class="col-sm-4">
+                <%=text_field_tag "total_checkin_qty",'', class: 'form-control', placeholder: 'Enter numbers', disabled: true %>
+              </div>
+            </div>
+            <% if is_unlimited == false %>
+              <input id="quantity" type="checkbox" value="1" name="quantity_available"></input>
+            <% else %>
+              <input id="quantity" checked="checked" type="checkbox" value="1" name="quantity_available"></input>
+            <% end %>
+            <label class="control-label">Unlimited</label>
+          </div>
+
+          
+          <div class="form-group">
+            <label class="control-label col-sm-4">Limit/Person:</label>
+            <div class="col-sm-4">
+              <%= f.select :limit_person, options_for_select(CheckinBallyhoo.limit_types.each_with_index.map { |x,i| [x, i] }, @ballyhoo.limit_person),{}, class: 'form-control', include_blank: false %>
+            </div>
+          </div>
+
+          <% product_type = determine_product_or_category(@ballyhoo) %>
+                       
+          <div class="form-group" id="type_select">
+            <label class="control-label col-sm-4">Type:</label>
+            <div class="col-sm-4">
+              <div id="radio-product">
+                <% if product_type.nil? || product_type == 'Product' %>
+                  <%= radio_button_tag("item_type", "product", 'checked') %>
+                <% else %>
+                  <%= radio_button_tag("item_type", "product") %>
+                <% end %>
+                <label class="control-label">Product</label>
+              </div>
+              <div id="radio-category">
+                <% if product_type == 'Category' %>
+                  <%= radio_button_tag("item_type", "category", "checked") %>
+                <% else %>
+                  <%= radio_button_tag("item_type", "category") %>
+                <% end %>
+                <label class="control-label">Category</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-dropdown <%= product_type.nil? ? '' : (product_type == 'Product' ? '' : 'hide' ) %>">
+            <div class="form-group row-2" id="product_category">
+              <label class="control-label col-sm-4">Product</label>
+              <div class="col-sm-4">
+                <%= select_tag "product", options_for_select(Ballyhoo.collect_products(current_establishment), @ballyhoo.product_category), {prompt: 'Please select product', class: 'form-control'} %>
+              </div>
+            </div>
+          </div>
+        
+          <div class="category-dropdown <%= product_type.nil? ? 'hide' : (product_type == 'Category' ? '' : 'hide' ) %>">
+            <div class="form-group row-2" id="category_product">
+              <label class="control-label col-sm-4">Category:</label>
+              <div class="col-sm-4">
+                <%= select_tag "category", options_for_select(Ballyhoo.collect_categoies(current_establishment), @ballyhoo.product_category), {prompt: 'Please select category', class: 'form-control'} %>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="form-group row-3" id="min_item">
+            <label class="control-label col-sm-4">Min # of Item:</label>
+            <div class="col-sm-4">
+              <%= f.number_field :min_no_of_item, class: 'form-control'%>
+            </div>
+          </div>
+          
+          <div class="form-group" id="min-purchase">
+            <label class="control-label col-sm-4">Min Purchase Amount:</label>
+            <div class="col-sm-4">
+              <%= f.text_field :purchase_amount, class: 'form-control'%>
+            </div>
+          </div>
+          
+          <div class="point-multiplier <%= product_type.nil? ? '' : (product_type == 'Product' ? '' : 'hide' ) %>">
+            <div class="form-group row-4" id="point_multiplier">
+              <label class="control-label col-sm-4">Point Multiplier:</label>
+              <div class="col-sm-4">
+                <%= select_tag "point_multiplier", options_for_select(PurchaseBallyhoo.multiplier_types.each_with_index.map { |x,i| [x, i] }, @ballyhoo.point_multiplier), class: 'form-control', include_blank: false%>
+              </div>
+            </div>
+          </div>
+          
+          <div class="point-addition <%= product_type.nil? ? 'hide' : (product_type == 'Category' ? '' : 'hide' ) %>">
+            <div class="form-group row-4" id="point_addition">
+              <label class="control-label col-sm-4">Point Addition:</label>
+              <div class="col-sm-4">
+                <%= number_field_tag 'point_addition', @ballyhoo.point_addition, :class => "form-control", include_blank: false %>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group row-4" id="points">
+            <label class="control-label col-sm-4">Points:</label>
+            <div class="col-sm-4">
+              <%= f.number_field :point_value , :class => "form-control" %>
+            </div>
+          </div>
+                        
+          <div class="form-group row-4">
+            <div class="col-sm-8 col-sm-offset-4">
+              <% if params[:action]=='edit' %>
+                <%=link_to "Cancel", :back, class: 'btn btn-default', 'data-no-turbolink' => true %>
+                <button type="submit" class="btn btn-primary btn-blue">Update</button>
+              <% else %>
+                <%=link_to "Cancel", root_path, class: 'btn btn-default', 'data-no-turbolink' => true %>
+                <button type="submit" class="btn btn-primary btn-blue">Schedule</button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!----------------Setting end_repeat and repeat type through jquery -------------------->
+    <%= f.hidden_field :end_repeat , :id => "ballyhoo_end_repeat" %>
+    <%= f.hidden_field :repeat_type, :id => "ballyhoo_repeat_type" %>
+    <%= f.hidden_field :repeating_days , :id => "ballyhoo_repeating_days" %>
+    <!-------------------------------------------------------->
+    <!-------repeat modal---------------->
+    <div aria-hidden="true" class="modal fade" id="modal-repeat" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" onclick="close_repeat_modal();"><span aria-hidden="true"> &times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">
+              Repeat Settings
+            </h4>
+          </div>
+          <div class="modal-body">
+            <form class="repeat-setting-frm form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Repeats:</label>
+                <div class="col-sm-5">
+                  <select class="form-control" id="repeat-select" onchange="set_repeat_type(this);">
+                    <option value="daily">
+                      Daily
+                    </option>
+                    <option value="weekly">
+                      Weekly
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <hr>
+              <div class="daily">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Ends:</label>
+                  <div class="col-sm-9 text-left">
+                    <div class="clearfix"></div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="checkbox-inline">
+                          <label><input id="end_repeat_never" type="radio" value="end_repeat" name="end_repeat_d" checked="checked"></input>Never</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="checkbox-inline">
+                          <label><input id="end_repeat_d_uper" type="radio" value="end_repeat" name="end_repeat_d" checked="checked"></input>After</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-sm-33">
+                        <input class="form-control after_date" type="text" onkeyup="add_days(this);" />
+                      </div>
+                      <div class="col-sm-4">
+                        Days
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px">
+                      <div class="col-sm-3">
+                        <div class="checkbox-inline">
+                          <label><input id="end_repeat_d_lower" type="radio" value="end_repeat" name="end_repeat_d"></input>On</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 col-sm-34">
+                        <input class="form-control datepicker-start on_date"  type="text" onChange="set_end_repeat_date(this);"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Summary</label>
+                  <div class="col-sm-9 text-left">
+                    Daily
+                  </div>
+                </div>
+              </div>
+              <div class="weekly">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Every:</label>
+                  <div class="col-sm-9 text-left">
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <div class="checkbox-inline">
+                          <label>
+                            <input id="monday" class="on_day" type="checkbox" value="1" onclick="select_day(this);" name="monday"></input>
+                            M</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label>
+                            <input id="tuesday" class="on_day" type="checkbox" value="1" onclick="select_day(this);" name="tuesday"></input>T</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label>
+                            <input id="wednesday" class="on_day" type="checkbox" value="1" onclick="select_day(this);" name="wednesday"></input>W</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label>
+                            <input id="thursday" class="on_day" type="checkbox" value="1" onclick="select_day(this);" name="thursday"></input>T</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label>
+                            <input id="friday" class="on_day" type="checkbox" value="1" onclick="select_day(this);" name="friday"></input>F</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label>
+                            <input id="saturday" class="on_day" type="checkbox" value="1" onclick="select_day(this);" name="saturday"></input>S</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label>
+                            <input id="sunday" class="on_day" type="checkbox" value="1" onclick="select_day(this);" name="sunday"></input>S</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Ends:</label>
+                  <div class="col-sm-9 text-left">
+                    <div class="clearfix"></div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="checkbox-inline">
+                          <label><input id="end_repeat_never" type="radio" value="end_repeat" name="end_repeat"></input>Never</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="checkbox-inline">
+                          <label><input id="end_repeat_w_uper" type="radio" value="end_repeat" name="end_repeat" checked="checked"></input>After</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-3 col-sm-33-w">
+                        <input class="form-control after_date" type="text" onkeyup="add_days(this);" />
+                      </div>
+                      <div class="col-sm-4">
+                        Days
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px">
+                      <div class="col-sm-3">
+                        <div class="checkbox-inline">
+                          <label><input id="end_repeat_w_lower" type="radio" value="end_repeat" name="end_repeat"></input>On</label>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 col-sm-34-w">
+                        <input class="form-control datepicker-start on_date" type="text" onChange="set_end_repeat_date(this);" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group days_summary">
+                  <label class="col-sm-3 control-label">Summary</label>
+                  <div class="col-sm-9 text-left append_days">
+                    Weekly
+                  </div>
+                </div>
+                </hr>
+              </div>
+              </hr>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="button" onclick="close_repeat_modal();"> Cancel</button><button class="btn btn-primary" id="repeat_modal_popup_btn" type="button"> Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%end%>
+</div>
+

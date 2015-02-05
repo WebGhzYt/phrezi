@@ -1,0 +1,10 @@
+= simple_form_for(@employee, html: {class: 'form-horizontal'}) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :role, collection: roles
+    - if @employee.new_record?
+      = f.association :user, prompt: false, collection: @users
+    - if @employee.persisted?
+      = f.input :enabled
+  .form-actions
+    = f.button :submit

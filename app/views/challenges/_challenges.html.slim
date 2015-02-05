@@ -1,0 +1,23 @@
+table.table.table-hover
+  tr
+    th Name
+    th Start date
+    th End date
+    th Challenge Prize
+    th Challenge Winner
+    th Win Differential
+    th Payout
+    th
+
+  - challenges.each do |challenge|
+    = row_for(challenge)
+      td = challenge.name
+      td = l challenge.start_date.to_date, format: :long
+      td = l challenge.end_date.to_date, format: :long
+      td = challenge.challenge_prize
+      td = challenge.challenge_winner
+      td = challenge.win_differential
+      td = number_to_currency(challenge.payout)
+      td
+        => edit_btn(challenge)
+        => destroy_btn(challenge)

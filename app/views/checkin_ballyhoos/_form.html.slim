@@ -1,0 +1,23 @@
+= simple_form_for @checkin_ballyhoo, html: {class: 'form-horizontal'} do |f|
+  = f.error_notification
+
+  .row
+    .col-md-4
+      = f.input :include_friends, collection: audience_list, include_blank: false
+    .col-md-4
+      = f.input :total_checkin_qty, label: 'Number of Friends'
+    .col-md-4
+      = f.input :point_value
+  .row
+    .col-md-3
+      = f.input :ballyhoo_date, as: :date_picker
+    .col-md-3
+      = f.input :ballyhoo_all_day, as: :boolean
+    .col-md-3
+      = f.input :ballyhoo_start_time, as: :time
+    .col-md-3
+      = f.input :ballyhoo_end_time, as: :time
+  .row
+    .col-md-3
+      = f.input :repeat_type, collection: repeat_list, include_blank: false
+  = f.submit 'Add Check-in Ballyhoo', class: 'btn btn-primary'

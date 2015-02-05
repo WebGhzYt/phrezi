@@ -1,0 +1,31 @@
+h3 Patrons purchase process
+.container
+  .row
+    .col-lg-12
+      = simple_form_for @enrolled_challenges, :url => create_manualpurchase_establishment_path(current_establishment.id), method: :post do |f|
+        = f.error_notification
+        .row.mt30
+          .col-sm-6
+            = f.select :patron_id, options_for_select(User.all.collect{ |u| [u.name, u.id] }), {}, {class: 'form-control'}
+          .col-sm-3
+            = f.input :amount, placeholder: 'Enter Amount', class: 'form-control', label: 'Amount'
+        .row 
+          .col-sm-9
+            = f.submit "Process purchase", class: 'btn btn-primary pull-right'
+  .row.mt30.col-sm-6
+    .panel.panel-default
+      .panel-heading
+        h3.panel-title Purchase history
+      table.table.table-striped
+        tbody
+          tr
+            th Name
+            th Date time
+            th Amount
+          - @enrolled_ballyhoos.each do |enrolled_ballyhoo|
+            tr
+              td= enrolled_ballyhoo.try(:patron).try(:name)
+              td= enrolled_ballyhoo.created_at.strftime("%B %d %Y,%H:%M:%S")
+              td= "$#{enrolled_ballyhoo.current_points}"
+
+

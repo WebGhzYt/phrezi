@@ -1,0 +1,30 @@
+p#notice = notice
+
+p
+  strong Include friends:
+  = @checkin_ballyhoo.include_friends
+p
+  strong Friends sync:
+  = @checkin_ballyhoo.friends_sync
+p
+  strong Total checkin qty:
+  = @checkin_ballyhoo.total_checkin_qty
+p
+  strong Point value:
+  = @checkin_ballyhoo.point_value
+p
+  strong Start:
+  = @checkin_ballyhoo.ballyhoo_start
+p
+  strong End:
+  = @checkin_ballyhoo.ballyhoo_end
+p
+  strong End repeat:
+  = @checkin_ballyhoo.end_repeat
+p
+  strong Establishment:
+  = @checkin_ballyhoo.establishment
+
+= link_to 'Edit', edit_checkin_ballyhoo_path(@checkin_ballyhoo)
+'|
+= link_to 'Back', checkin_ballyhoos_path

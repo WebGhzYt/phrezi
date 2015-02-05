@@ -1,0 +1,6 @@
+<%if !@employee.errors.present?%>
+  $("#employees").html("<%= escape_javascript(render :partial => "employees/all_employees").html_safe %>");
+<%else%>
+  var errors = <%= @employee.errors.full_messages.join(',') %>
+  alert(errors);
+<%end%>

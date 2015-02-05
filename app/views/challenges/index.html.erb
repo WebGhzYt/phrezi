@@ -1,0 +1,594 @@
+<div id="flash_popup_booster"></div>
+<div class="wrap-content logged-in">
+  <div class="container container-setting">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="setting">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#challenge" role="tab" data-toggle="tab" class="call-challenge">Challenge</a></li>
+            <li><a href="#booster" role="tab" data-toggle="tab" class="call-booster" id="booster_div">Booster</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <!-- Challenge -->
+            <div class="tab-pane active" id="challenge">
+              <div class="panel-group" id="challenge-accordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading title-lvl-1">
+                    <h4 class="panel-title clearfix">
+<%#*<a data-toggle="collapse" data-parent="#challenge-accordion" href="#challenge-accordion-1" id="challenge-accordion-11">%>
+                      <a id="challenge-accordion-11" onclick="challenge_active_toggle();" href="javascript:void(0)">
+                        Challenge Active
+                      </a>
+                      <a href="javascript:void(0)" class="pull-right sideout-btn" id="demo1">
+                        <i class="fa fa-angle-right"></i>
+                        <i class="fa fa-angle-left"></i>
+                      </a>
+                    </h4>
+                    <%if @active_challenges.nil?%>
+                      <h4> No Active Challenge </h4>
+                    <%else%>
+                      <h4>
+                        <%= "#{@active_challenges.start_date.strftime("%d %B %Y")} - #{@active_challenges.end_date.strftime("%d %B %Y")}"%>
+                      </h4>
+                    <%end%>
+                  </div>
+                  <div id="challenge-accordion-1" class="panel-collapse collapse in">
+                    <%= render :partial => "active_challenges" %>
+                  </div>
+                </div>
+                <div class="panel panel-default" id="challenge_setup_div">
+                  <div class="panel-heading title-lvl-1">
+                    <h4 class="panel-title clearfix">
+<%#*<a data-toggle="collapse" data-parent="#challenge-accordion" href="#challenge-accordion-2" id="challenge-accordion-22">%>
+                      <a id="challenge-accordion-22" onclick="challenge_setup_toggle();" href="javascript:void(0)">
+                        Challenge Setup
+                      </a>
+                    </h4>
+                    <%if @upcoming_challenges.nil?%>
+                      <h4> No Upcoming Challenge </h4>
+                    <%end%>
+                  </div>
+                  <div id="challenge-accordion-2" class="panel-collapse collapse">
+                    <%= render :partial => "challenges_setup" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Booster -->
+            <div class="tab-pane" id="booster">
+              <div class="panel-group" id="booster-accordion">
+                <form class="panel panel-default">
+                  <div class="panel-heading clearfix title-lvl-1">
+                    <h4 class="panel-title clearfix">
+<%#*<a data-toggle="collapse" data-parent="#booster-accordion" href="#booster-accordion-1">%>
+                      <a onclick="booster_active_toggle();" href="javascript:void(0)">
+                        Booster Active
+                      </a>
+                      <a href="javascript:void(0)" class="pull-right sideout-btn-1" id="demo2">
+                        <i class="fa fa-angle-right"></i>
+                        <i class="fa fa-angle-left"></i>
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="booster-accordion-1" class="panel-collapse collapse in">
+                    <%= render :partial=>"ballyhoos/boosters/boosters_active"%>
+                  </div>
+                </form>
+                <div class="panel panel-default">
+                  <div class="panel-heading title-lvl-1">
+                    <h4 class="panel-title clearfix">
+<%#*<a data-toggle="collapse" data-parent="#booster-accordion" href="#booster-accordion-2" class="show-statistic" id="booster-accordion-22">%>
+                      <a onclick="booster_setup_toggle();" href="javascript:void(0)">
+                        Booster Setup
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="booster-accordion-2" class="panel-collapse collapse">
+                    <div id="edit_booster">
+                      <%= render :partial=> "ballyhoos/boosters/boosters_setup" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sidebar -->
+      <div class="col-sm-4">
+        <div class="sidebar">
+          <div id="projection-box">
+            <h3>Current Payouts<a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a></h3>
+            <table class="table">
+              <thead>
+              <th>#</th>
+              <th>Profile</th>
+              <th>Points</th>
+              <th>Payout</th>
+              </thead>
+              <tbody>
+                <% cnt = 0 %>
+                <% if @payouts.present? %>
+                  <% for payout in @payouts do %>
+                      <% cnt += 1 %>
+                      <tr>
+                        <td><%=cnt%></td>
+                        <td>Mister <%=cnt%></td>
+                        <td>XXXX</td>
+                        <td><%=number_to_currency(payout) %></td>
+                      </tr>
+                    <% end %>
+                  <%end%>
+                </tbody>
+              </table>
+            </div>
+            <div id="projection-box-1">
+              <h3>Projections 1<a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a></h3>
+              <table class="table">
+                <thead>
+                <th>#</th>
+                <th>Profile</th>
+                <th>Points</th>
+                <th>Payout</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Mister One</td>
+                    <td>5,565</td>
+                    <td>$1,101</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div id="statistic-box">
+              <h3>Statistics<a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a></h3>
+              <table class="table text-right">
+                <tbody>
+                  <tr>
+                    <td>Time Remaining: </td>
+                    <td>09:02:36</td>
+                  </tr>
+                  <tr>
+                    <td>Recieved: </td>
+                    <td>0123</td>
+                  </tr>
+                  <tr>
+                    <td>Read: </td>
+                    <td>65</td>
+                  </tr>
+                  <tr>
+                    <td>Redeemed: </td>
+                    <td>98</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div id="sidebar-setting">
+              <div class="setting-header">
+                <a href="javascript:void(0)" class="setting-btn show-setting-1 setting-active"><i class="fa fa-cog"></i></a>
+                <!-- <a href="#demo" class="setting-btn show-setting-2"><i class="fa fa-calendar"></i></a> -->
+                <a href="javascript:void(0)" class="setting-btn show-setting-3"><i class="fa fa-users"></i></a>
+                <a href="javascript:void(0)" class="setting-btn show-setting-4"><i class="fa fa-desktop"></i></a>
+              </div>
+              <div class="setting-box-wrap">
+
+
+                <!-- //////////////// Employee Access //////////////////// -->
+                <div>
+                  <div id="setting-1" class="setting-panel">
+                    <div class="panel-body">
+                      <div class="panel-group" id="wingboard-accrd">
+                        <div class="panel panel-default">
+                          <div class="panel-heading ">
+                            <div class="panel-title">
+                              <a data-toggle="collapse" data-parent="#wingboard-accrd" href="#wing-1" id="wing-11">
+                                Employee Access
+                              </a>
+                            </div>
+                          </div>
+                          <div id="wing-1" class="panel-collapse collapse in setting-box">
+                            <div class="panel-body">
+                              <div class="table-responsive">
+                                <div id="employees">
+                                  <%= render :partial => "employees/all_employees" %>
+                                </div>
+                                <hr/>
+                                <h4>Add Employee</h4>
+                                <%= render :partial => "employees/employee_form" %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <div class="panel-title">
+                              <a data-toggle="collapse" data-parent="#wingboard-accrd" href="#wing-2" id="wing-22">
+                                Menu Items
+                              </a>
+                            </div>
+                          </div>
+                          <div id="wing-2" class="panel-collapse collapse setting-box">
+                            <div class="panel-body">
+                              <h4>Add Menu Items</h4>
+                              <%= render :partial => "menu_items/form" %>
+                              <hr>
+                              <div id="menu_items">
+                                <%= render :partial => "menu_items/menu_items" %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- //////////////// Calendar //////////////////// -->
+                <!-- <div class="setting-box-calender">
+                  <div id="setting-2" class="setting-panel" style="min-height: 530px;">
+                    <div class="panel-body">
+                      <div class="calendar-list">
+                        <h4 class="text-center">
+                          <small><a href="##" id="previous_month"><i class="fa fa-angle-left"></i></a></small>
+                          <a href="##" id="calender_date_u"></a>
+                          <small><a href="##" id="next_month"><i class="fa fa-angle-right"></i></a></small>
+                        </h4>
+                        <div class="table-responsive">
+                          <div id="active_boosters">
+
+                          </div>
+                        </div>
+                      </div>
+                      <hr></hr>
+                      <div id='calendar'></div>
+                      <hr>
+                      <div class="calendar-list">
+                        <h4 class="text-center">
+                          <small><a href="##" id="previous_day"><i class="fa fa-angle-left"></i></a></small>
+                          <a href="##" id="calender_date_l"></a>
+                          <small><a href="##" id="next_day"><i class="fa fa-angle-right"></i></a></small>
+                        </h4>
+                        <div class="table-responsive">
+                          <div id="active_boosters">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- //////////////// Loyal //////////////////// -->
+
+                <div class="setting-box-calender">
+                  <div id="setting-3" class="setting-panel" style="min-height: 530px;">
+                    <div class="panel-body">
+                      <%= render :partial => "loyal_patrons/loyal_patrons" %>
+                      <hr>
+                      <div id="show_loyal_patron">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- //////////////// Financial //////////////////// -->
+                
+                <div>
+                  <div id="setting-4" class="setting-panel" style="min-height: 530px;">
+                    <div class="panel-body">
+                      <div class="panel-group" id="wing-4-acc" style="margin-bottom: 0px;">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#wing-4-acc" href="#wing-4-acc-1">Financials</a>
+                            </h4>
+                          </div>
+                          <div id="wing-4-acc-1" class="panel-collapse collapse in">
+                            <div class="panel-body setting-box-min-height setting-box-calender">
+                              <div class="row text-right">
+                                <div class="col-sm-7"><strong>Total Gross Sales:</strong></div>
+                                <div class="col-sm-5">$982,411.00</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-7"><strong>Total Prize Payout:</strong></div>
+                                <div class="col-sm-5">$64,311</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-7"><strong>Total Flat Rate Payout:</strong></div>
+                                <div class="col-sm-5">$26,135</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#wing-4-acc" href="#wing-4-acc-2">Challenges Summary</a>
+                            </h4>
+                          </div>
+                          <div id="wing-4-acc-2" class="panel-collapse collapse">
+                            <div class="panel-body setting-box-min-height setting-box-calender">
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Total Number of Challenges:</strong></div>
+                                <div class="col-sm-3">12</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Total Number of  Winners:</strong></div>
+                                <div class="col-sm-3">14</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Total Number of Participals:</strong></div>
+                                <div class="col-sm-3">144</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#wing-4-acc" href="#wing-4-acc-3">Bootster Summary</a>
+                            </h4>
+                          </div>
+                          <div id="wing-4-acc-3" class="panel-collapse collapse">
+                            <div class="panel-body setting-box-min-height setting-box-calender">
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Total Boosters vs Total Redeemed:</strong></div>
+                                <div class="col-sm-3">92/82 (92%)</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Total Checkin Boosters vs Total Redeemed:</strong></div>
+                                <div class="col-sm-3">14//10 (74%)</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Total Purchase Boosters vs Total Redeemed:</strong></div>
+                                <div class="col-sm-3">61/24 (33%)</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Total Task Boosters vs Total Redeemed:</strong></div>
+                                <div class="col-sm-3">27/13 (50%)</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#wing-4-acc" href="#wing-4-acc-4">Archived Challenges</a>
+                            </h4>
+                          </div>
+                          <div id="wing-4-acc-4" class="panel-collapse collapse">
+                            <div class="panel-body setting-box-min-height setting-box-calender">
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>01 Jun 2014 - 07 Jun 2014</strong></div>
+                                <div class="col-sm-3">7 days</div>
+                              </div>
+                              <div class="table-responsive">
+                                <table class="table text-right">
+                                  <tr>
+                                    <td>Participants:</td>
+                                    <td>100</td>
+                                    <td>Winners:</td>
+                                    <td>15</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Total Gross Sales:</td>
+                                    <td>$2,444</td>
+                                    <td>Total Costs:</td>
+                                    <td>$2,444</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Flat Rate payout:</td>
+                                    <td>$2,444</td>
+                                    <td>Grant Payout:</td>
+                                    <td>$2,444</td>
+                                  </tr>
+                                </table>
+                              </div>
+
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>01 Jun 2014 - 07 Jun 2014</strong></div>
+                                <div class="col-sm-3">7 days</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>01 Jun 2014 - 07 Jun 2014</strong></div>
+                                <div class="col-sm-3">7 days</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>01 Jun 2014 - 07 Jun 2014</strong></div>
+                                <div class="col-sm-3">7 days</div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#wing-4-acc" href="#wing-4-acc-5">Archived Booster</a>
+                            </h4>
+                          </div>
+                          <div id="wing-4-acc-5" class="panel-collapse collapse">
+                            <div class="panel-body setting-box-min-height setting-box-calender">
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Triple All Milk Base Shots:</strong></div>
+                                <div class="col-sm-3">Purchase</div>
+                              </div>
+                              <div class="table-responsive">
+                                <table class="table text-right">
+                                  <tr>
+                                    <td colspan="2">01/08/2014 15:00-17:00</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Number Recieved:</td>
+                                    <td>67</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Number Read:</td>
+                                    <td>59</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Number Redeemed:</td>
+                                    <td>12</td>
+                                  </tr>
+                                </table>
+                              </div>
+
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Buck Beer Number Double Points</strong></div>
+                                <div class="col-sm-3">Purchase</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Pay with Cash Reward</strong></div>
+                                <div class="col-sm-3">Task</div>
+                              </div>
+                              <div class="row text-right">
+                                <div class="col-sm-9"><strong>Eat until you puke</strong></div>
+                                <div class="col-sm-3">Task</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="challenge-setup-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Congratulations!<br>You've set up your Establishment!</br>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            Now you can set up a Challenge for your loyal patrons to compete against one another on.  A Challenge is defined as a ...blah blah blah..Let's get started...
+          </p>
+          <a class="btn btn-primary" data-dismiss="modal" href="#" id="open_challenge_form"> Challenge Setup</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="delete-menu-item-confirm">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Are you sure?
+          </h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            Are you sure? This action is irreversible.
+          </p>
+          <a class="btn btn-default" data-dismiss="modal" href="##" style="margin-right: 5px;color: black;">Cancel</a>
+          <a class="btn btn-primary" href="##" id="menu-item-delete">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  <% if !current_establishment.challenges.present? %>
+      var challenge_setup_modal = true
+  <% end %>
+
+  <% if params[:category] %>
+      var category = true
+  <% end %>
+
+  // <% if @upcoming_challenges %>
+  //   upcoming_start_date = "<%= @upcoming_challenges.start_date %>"
+  //   date = new Date(upcoming_start_date.split(' ')[0]);
+  //   offset = parseInt(- date.getTimezoneOffset() / 60).toString();
+  //   if(offset.indexOf('-') == 0){
+  //     upcoming_start_date = date.setDate(date.getDate() + 1);
+  //   }
+  //   else{
+  //     upcoming_start_date = date.setDate(date.getDate());
+  //   }
+  //   var upcoming_start_date = new Date(upcoming_start_date);
+
+  //   upcoming_end_date = "<%= @upcoming_challenges.end_date %>"
+  //   date = new Date(upcoming_end_date.split(' ')[0]);
+  //   offset = parseInt(- date.getTimezoneOffset() / 60).toString();
+  //   if(offset.indexOf('-') == 0){
+  //     upcoming_end_date = date.setDate(date.getDate() + 1);
+  //   }
+  //   else{
+  //     upcoming_end_date = date.setDate(date.getDate());
+  //   }
+  //   var upcoming_end_date = new Date(upcoming_end_date);
+  //   var show_event_on_calender = true
+  // <% end %>
+
+  <% if !session[:booster].blank? %>
+    var booster_active = "true"
+    <% session[:booster] = nil %>
+  <% end %>
+</script>

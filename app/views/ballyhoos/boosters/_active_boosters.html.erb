@@ -1,0 +1,34 @@
+<table class="table text-right">
+  <thead>
+    <th class="text-right">Booster Name</th>
+    <th class="text-right">Type</th>
+    <th class="text-right">Duration</th>
+    <th class="text-right">Points</th>
+  </thead>
+  <tbody>
+    <%@ballyhoos.each do |ballyhoo|%>
+      <tr>
+        <td><%= ballyhoo.title %></td>
+        <%if ballyhoo.ballyhoo_type == "PurchaseBallyhoo"%>
+          <td>Purchase</td>
+        <%elsif ballyhoo.ballyhoo_type == "CheckinBallyhoo"%>
+          <td>Check In</td>
+        <%elsif ballyhoo.ballyhoo_type == "TaskBallyhoo"%>
+          <td>Task</td>
+        <%end%>
+        <td><%= ballyhoo.all_day ? "All Day" : "#{ballyhoo.start_time.in_time_zone(ballyhoo.establishment.timezone.to_i).strftime("%H:%M")} - #{ballyhoo.end_time.in_time_zone(ballyhoo.establishment.timezone.to_i).strftime("%H:%M")}" %></td>
+        <% if ballyhoo.ballyhoo_type == "PurchaseBallyhoo" %>
+          <% if ballyhoo.point_multiplier == 0 %>
+            <td>Double</td>
+          <% elsif ballyhoo.point_multiplier == 1 %>
+            <td>Triple</td>
+          <% else %>
+            <td><%=ballyhoo.point_multiplier %></td>
+          <% end %>
+        <% else %>
+          <td><%= ballyhoo.point_value %></td>
+        <% end %>
+      </tr>
+    <%end%>
+  </tbody>
+</table>

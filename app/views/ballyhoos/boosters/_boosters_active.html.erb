@@ -1,0 +1,155 @@
+<div class="panel-body box-im box-im-booster">
+  <div class="clearfix">
+    <div class="col-xs-12 main">
+      <div class="clearfix bootster-action-title pretty">
+        <div class="col-sm-3 text-right">
+          <%= sortable "ballyhoo_type", "Type" %>
+        </div>
+        <div class="col-sm-4">
+          <%= sortable "title", "Name" %>
+        </div>
+        <div class="col-sm-1 text-right">Status</div>
+      </div>
+      <div class="panel-group" id="booster-actions">
+        <% @all_ballyhoos.each_with_index do |ballyhoo, i|%>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="panel-title">
+                <div class="clearfix">
+                  <div class="col-sm-3 text-right">
+                    <a data-toggle="collapse" data-parent="#booster-actions" href="#booster-checkin-active_<%=i%>" class="show-ico">
+                      <strong><%= ballyhoo.ballyhoo_type_small%></strong>
+                      <i class="fa fa-angle-down"></i>
+                    </a>
+                  </div>
+                  <div class="col-sm-4"><%= ballyhoo.title%></div>
+                  <% if ballyhoo.active?%>
+                    <div class="col-sm-1 text-right">Live</div>
+                  <%elsif ballyhoo.upcoming?%>
+                    <div class="col-sm-1 text-right">Scheduled</div>
+                  <%elsif ballyhoo.paused?%>
+                    <div class="col-sm-1 text-right">Paused</div>
+                  <%else ballyhoo.archived?%>
+                    <div class="col-sm-1 text-right">Archived</div>
+                  <%end%>
+                  <div class="col-sm-4 text-right">
+                    <% if ballyhoo.active?%>
+                      <%= link_to 'Pause', change_status_ballyhoo_path(:id=> ballyhoo.id), :class=> 'btn btn-default', :style=> ("display: inline-block !important;")%>
+                    <%elsif ballyhoo.paused?%>
+                      <%= link_to 'Resume', change_status_ballyhoo_path(:id=> ballyhoo.id), :class=> 'btn btn-default', :style=> ("display: inline-block !important;")%>
+                    <%elsif ballyhoo.upcoming?%>
+                      <a href="javascript:void(0)" class="btn btn-default" style="display: inline-block !important;" id="<%= ballyhoo.id %>" onclick="edit_ballyhoo(this);">Edit</a>
+                    <%end%>
+                    <a href="javascript:void(0)" class="btn btn-default" style="display: inline-block !important;" id="<%= ballyhoo.id %>" onclick="delete_ballyhoo(this);">Delete</a>
+                    <a href="javascript:void(0)" class="sideout-statistic-btn">
+                      <i class="fa fa-angle-right"></i>
+                      <i class="fa fa-angle-left"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="booster-checkin-active_<%=i%>" class="panel-collapse collapse">
+              <div class="panel-body">
+                <div class="clearfix">
+                  <div class="col-sm-12 booster-actions-ct">
+                    <div class="table-responsive table-booster-active">
+                      <table class="table">
+
+                        <tbody>
+                          <tr>
+                            <td class="text-right">
+                              <strong>Start :</strong><br/>
+                              <strong>End :</strong>
+                            </td>
+                            <td>
+                              <%= ballyhoo.try(:start_date).try(:strftime, "%d/%m/%Y") %> - <%=ballyhoo.start_time.nil? ? "All day" : "#{ballyhoo.start_time.in_time_zone(ballyhoo.establishment.timezone.to_i).strftime("%H:%M")}" %>
+                              <br/>
+                              <% if ballyhoo.repeat_type.to_i == 0 %>
+                                <%= ballyhoo.try(:start_date).try(:strftime, "%d/%m/%Y") %> - <%=ballyhoo.end_time.nil? ? "All day" : "#{ballyhoo.end_time.in_time_zone(ballyhoo.establishment.timezone.to_i).strftime("%H:%M")}" %>
+                              <% else %>
+                                <%= ballyhoo.end_repeat.nil? ? "Never - " : "#{ballyhoo.end_repeat.strftime("%d/%m/%Y")} - "%><%=ballyhoo.end_time.nil? ? "All day" : "#{ballyhoo.end_time.in_time_zone(ballyhoo.establishment.timezone.to_i).strftime("%H:%M")}" %>
+                              <% end %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="text-right">
+                              <strong>Repeat :</strong>
+                            </td>
+                            <td>
+                              <% if !ballyhoo.repeat_type.blank? %>
+                                <%if ballyhoo.repeat_type.to_i == 0%>
+                                  No Repeat
+                                <%else%>
+                                  <%= ballyhoo.repeating_days.present? ? "Weekly" : "Daily"%>
+                                  <%= ballyhoo.repeating_days %>
+                                <%end%>
+                              <%end%>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="text-right">
+                              <strong>Audience :</strong><br/>
+                              <strong>Friends :</strong><br/>
+                              <strong>Quantity Available :</strong><br/>
+                              <strong>Limit / Person :</strong>
+                            </td>
+                            <td>
+                              <%= booster_audience(ballyhoo) %>
+                              <br/>
+                              <%if ballyhoo.ballyhoo_type == 'CheckinBallyhoo'%>
+                                <%= ballyhoo.friends.present? ? ballyhoo.friends : 0 %>
+                              <%else%>
+                                <%= 0 %>
+                              <%end%>
+                              <br/>
+                              <%= ballyhoo.total_checkin_qty%>
+                              <br/>
+                              <%= booster_limit_person(ballyhoo) %>
+                            </td>
+                          </tr>
+                          <%if ballyhoo.ballyhoo_type == "PurchaseBallyhoo"%>
+                            <tr>
+                              <td class="text-right">
+                                <strong><%= determine_product_or_category(ballyhoo) %> Name :</strong><br/>
+                                <strong>Min # of items :</strong><br/>
+                                <strong>Min Purchase Amount :</strong>
+                              </td>
+                              <td>
+                                <%if ballyhoo.ballyhoo_type == "PurchaseBallyhoo"%>
+                                  <%= product_or_category_details(ballyhoo)%>
+                                  <br/>
+                                  <%= ballyhoo.min_no_of_item %>
+                                  <br/>
+                                  <%= ballyhoo.purchase_amount %>
+                                <%end%>
+                              </td>
+                            </tr>
+                          <%end%>
+                          <tr>
+                            <td class="text-right">
+                              <strong>Points :</strong>
+                            </td>
+                            <% if ballyhoo.ballyhoo_type == "PurchaseBallyhoo" %>
+                              <td>
+                                <%= point_addition_or_multiplier(ballyhoo) %>
+                              </td>
+                            <% else %>
+                              <td>
+                                <%= ballyhoo.try(:point_value) %>
+                              </td>
+                            <% end %>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>

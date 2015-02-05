@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    meta[charset="utf-8"]
+    meta[name="ROBOTS" content="NOODP"]
+    title
+      = title
+    = stylesheet_link_tag :application, :media => 'all'
+    = csrf_meta_tags
+  body(class="#{body_class}")
+  = render 'layouts/navigation' if (controller_name != 'home' && controller_name != 'client_app')
+  .container
+    main.content
+      /= render 'flashes'
+      = yield
+    footer
+      hr
+      p.text-muted
+        | Copyright 2014 
+        a[href="/"] Ballyhoo
+      .inner
+        p
+          | Find us on 
+          a[href="http://twitter.com/ballyhoopays"] Twitter
+          |  and 
+          a[href="http://facebook.com/ballyhoopays"] Facebook
+  = render 'javascript'

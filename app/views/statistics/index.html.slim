@@ -1,0 +1,22 @@
+section.signup
+  .container
+    .signup-wrapper
+      .signup-head
+        .col-sm-3
+          h2 Mock Payout Calculator
+      .signup-form
+        .col-xs-12
+          = render 'form'
+      - unless @payouts.empty?
+        table
+          th
+            tr tier
+            tr payout
+          - cnt = 0 
+          - for payout in @payouts do
+            - cnt += 1
+            tr
+              td.tier = cnt
+              td.payout = number_to_currency(payout) 
+      - else
+        RUN

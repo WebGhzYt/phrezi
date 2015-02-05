@@ -1,0 +1,66 @@
+
+$("#edit_booster").html("<%= escape_javascript(render :partial => "ballyhoos/boosters/boosters_setup").html_safe %>");
+$('#booster-accordion-22').click();
+$('#booster-accordion-2').show();
+$('#booster-accordion-1').hide();
+settings();
+
+
+//date setting
+var path, set_check_date;
+path = window.location.pathname;
+
+if (path === "/" || path === "/challenges") {
+  $("input.datepicker-start").datetimepicker({
+  format: "DD-MM-YYYY",
+  pickTime: false,
+  minDate: Date()
+});
+
+$("input.datepicker-start").data("DateTimePicker").setDate(new Date());
+
+$("input.timepicker-start").datetimepicker({
+  format: "HH:mm",
+  pickDate: false
+  });
+
+$("input.timepicker-end").datetimepicker({
+  format: "HH:mm",
+  pickDate: false
+  });
+}
+/////////////
+<%if @ballyhoo.end_repeat.present?%>
+  $('#duration_anchor').show();
+  $('#ballyhoo_repeat').prop("checked",true);
+<%end%>
+<%if @ballyhoo.repeat_type == 0%>
+  $('#repeat-select').val('daily');
+  $('.weekly').hide();
+  $('.daily').show();
+  $('#end_repeat_d_uper').prop("checked",false);
+  $('#end_repeat_d_lower').prop("checked",true);
+  $('.on_date').attr("readonly",false);
+  $('.on_date').val("<%= @ballyhoo.end_repeat %>");
+  $('.after_date').attr("readonly",true);
+<%else%>
+  $('#repeat-select').val("weekly")
+  $('.daily').hide();
+  $('.weekly').show();
+  $('#end_repeat_w_uper').prop("checked",false);
+  $('#end_repeat_w_lower').prop("checked",true);
+  $('.on_date').attr("readonly",false);
+  $('.on_date').val("<%= @ballyhoo.end_repeat %>");
+  $('.after_date').attr("readonly",true);
+  ////setting days ////////////////
+  var days = '<%= @ballyhoo.repeating_days %>'
+  days = days.split(",")
+  for(var i = 0; i < days.length; i++ )
+  {
+  $('.append_days').append(''+','+days[i]);
+  $('#'+days[i]).prop("checked",true)
+  }
+<%end%>
+$('#check_start_date').val('<%= @ballyhoo.start_date.strftime("%F") %>');
+hide_or_show_date_fields();
+booster_form_settings();

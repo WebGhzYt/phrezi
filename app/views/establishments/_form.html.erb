@@ -1,0 +1,127 @@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<%=simple_form_for(@establishment, :html=> {:class=> 'form-horizontal',:id => "establishment_form"}) do |f|%>
+  <div class="content">
+    <div class="col-sm-8 main">
+      <div class="form-group">
+        <label class="col-sm-4 control-label">Establishment Name <span>*</span>:</label>
+        <div class="col-sm-8">
+          <%= f.text_field :name, :class=> 'form-control', :placeholder=> "Establishment Name"%>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label">Web URL:</label>
+        <div class="col-sm-8">
+          <%= f.text_field :website, :class=> 'form-control', :placeholder=> "Web URL"%>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label">Facebook Page:</label>
+        <div class="col-sm-8">
+          <%= f.text_field :facebook, :class=> 'form-control', :placeholder=> "Facebook Page"%>
+        </div>
+      </div>
+      <%= f.input :gps_lat, as: :hidden%>
+      <%= f.input :gps_long, as: :hidden%>
+      <%= hidden_field_tag :establishment_id, @establishment.id%>
+      <span class="divider"></span>
+      <%= f.simple_fields_for :address do |a|%>
+        <div class="address-form">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Address (line 1) <span>*</span>:</label>
+            <div class="col-sm-8">
+              <%= a.text_field :street1, class: 'form-control', placeholder: 'Address (line 1)'%>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Address (line 2):</label>
+            <div class="col-sm-8">
+              <%= a.text_field :street2, class: 'form-control', placeholder: "Address (line 2)"%>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">City <span>*</span>:</label>
+            <div class="col-sm-8">
+              <%= a.text_field :city, class: 'form-control', placeholder: 'City'%>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">State <span>*</span>:</label>
+            <div class="col-sm-3">
+              <%= a.collection_select :state, Address.all, :id, :state, {prompt: "Select state"}, {class: "form-control"} %>
+            </div>
+            <label class="col-sm-2 control-label">Zip <span>*</span>:</label>
+            <div class="col-sm-3">
+              <%= a.text_field :postal,:class=>"form-control" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Country <span>*</span>:</label>
+            <div class="col-sm-8">
+              <%= a.country_select :country, {priority: %w(US CA), prompt: 'Please select a country'},:class => "form-control" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <span class="divider"></span>
+    </div>
+
+    <div class=" col-sm-4 sidebar sideBar1">
+      <div class="upload_button"><%= f.file_field :picture, as: :hidden, "style" => "display:none"%></div>
+      <div class="upload_preview">
+        <%= button_tag "Choose Image", type: 'button', id:'upload_btn', class: 'btn btn-primary'%>
+        <%= image_tag @establishment.picture.url, :size => "200x200"%>
+      </div>
+      <div id="address-map">
+      </div>
+      <div class="crop_preview">
+      </div>
+    </div>
+
+    <div class="col-xs-12 business-hours">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Business Hours:</label>
+        <div class="col-sm-10">
+          <%= f.simple_fields_for :establishment_hours do |h|%>
+            <div class="dates">
+              <label><%= h.object.day.humanize%></label>
+              <br/>
+              <%= h.check_box :closed, :id=> "#{h.object.day}", :class=>"establishment_closed",:onclick=>"nearest_select(this);"%>
+              <label>&nbsp;Closed</label>
+              <%= h.hidden_field :day ,:value => "#{h.object.day.humanize}" %>
+              
+              <%- open_hrs = h.object.try(:open_time).try(:in_time_zone, current_establishment.timezone.to_i).try(:strftime, "%H:%M") unless current_establishment.nil? %>
+              <%= h.select :open_time, options_for_select(select_hours, "#{open_hrs}"), {prompt: "Select time"}, {class: "form-control",:id=>"open_time#{h.object.day}"} %>
+              
+              <%- close_hrs = h.object.try(:close_time).try(:in_time_zone, current_establishment.timezone.to_i).try(:strftime, "%H:%M") unless current_establishment.nil? %>
+              <%= h.select :close_time, options_for_select(select_hours,"#{close_hrs}"), {prompt: "Select time"}, {class: "form-control",:id=>"end_time#{h.object.day}"} %>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 update">
+      <button type="button" class="btn btn-primary pull-right" id="update_establishment_btn">Update</button>
+      <%= link_to root_path do %>
+        <button type="button" class="btn btn-default pull-right" id="cancel_establishment_btn" style="margin-right: 5px;">Cancel</button>
+      <%end%>
+    </div>
+  </div>
+<% end %>
+<div id="establishment" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header modal-header12">
+        <h4 class="modal-title">Welcome to Phrenzi</h4>
+        <div class="modal-body"></div>
+        <p>...and thank you for joining the world's first truely dynamic and social loyaly program.  Before you are able to launch exciting loyalty challenges and rewards to your loyal patrons you will need to set up your Establishment.</p>
+        <a href="##" class="btn btn-primary" id="establishment-pop-up">Create Establishment</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  <%if !current_user.establishments.present?%>
+    var establishment_modal = true
+  <%end%>
+</script>

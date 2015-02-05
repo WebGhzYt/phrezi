@@ -1,0 +1,116 @@
+.panel.panel-default
+  .panel-heading
+    .col-sm-6
+      h4.panel-title
+        a data-parent="#accordion" data-toggle="collapse" href="#boosterTwo"
+          | Booster Setup
+  #boosterTwo.panel-collapse.collapse
+    .panel-body
+      .col-xs-12.main
+        .cleaarfix
+          .col-sm-8.main.booster-setup-content
+            = simple_form_for(@ballyhoo, remote: true, html: {class: 'form-horizontal'}) do |f|
+              = f.error_notification
+              .form-group
+                label.control-label.col-sm-4 Type*:
+                .col-sm-4
+                  = f.select :ballyhoo_type, options_for_select([['Checkin', 'CheckinBallyhoo'], ['Purchase', 'PurchaseBallyhoo'], ['Task', 'TaskBallyhoo']]), {prompt: 'Please select'}, class: 'form-control ballyhoo_type_selector'
+                .col-sm-4
+                  =link_to (image_tag src="/assets/ico-stored.gif"), '#'
+              .form-group
+                label.control-label.col-sm-4 Booster Name*:
+                .col-sm-4
+                  = f.text_field :title, :class=>"form-control"
+              .checkin.hide
+                = render partial: '/ballyhoos/boosters/booster_check_in', locals: {f: f}
+              .purchase.hide
+                = render partial: '/ballyhoos/boosters/booster_purchase', locals: {f: f}
+              .task.hide
+                = render partial: '/ballyhoos/boosters/booster_task', locals: {f: f}
+              .form-group
+                label.control-label.col-sm-4 Points:
+                .col-sm-4
+                  = f.text_field :point_value, value: "50", class: "form-control"
+                .col-sm-4.text-right
+                  = f.button :submit, value: 'Schedule', class: 'btn btn-primary btn-blue'
+              / repeat model
+              #modal-repeat.modal.fade aria-hidden="true" tabindex="-1" 
+                .modal-dialog
+                  .modal-content
+                    .modal-header
+                      button.close data-dismiss="modal" type="button" 
+                        span aria-hidden="true"  &times;
+                        span.sr-only Close
+                      h4.modal-title Repeat Settings
+                    .modal-body
+                      .repeat-setting-frm.form-horizontal
+                        -# f.simple_fields_for @ballyhoo.build_ballyhoo_day do |b|
+                        .form-group
+                          label.col-sm-3.control-label Repeats:
+                          .col-sm-5
+                            = select_tag(:ballyhoo_ballyhoo_day_attributes_repeat_type, options_for_select([['Daily', 0], ['Weekly', 1]]), class: 'form-control', name: 'ballyhoo[ballyhoo_day_attributes][repeat_type]')
+                            -# b.select :repeat_type, options_for_select([['Daily', 0], ['Weekly', 1]]), class: 'form-control'
+                        hr
+                          .weekly
+                            .form-group.weekly_days
+                              label.col-sm-3.control-label
+                                | Every:
+                              .col-sm-9.text-left
+                                .row 
+                                  .col-sm-9
+                                    .checkbox-inline
+                                      input type="checkbox" id="day_0" class="week_day"
+                                        | M
+                                    .checkbox-inline
+                                      input type="checkbox" id="day_1" class="week_day"
+                                        | T
+                                    .checkbox-inline
+                                      input type="checkbox" id="day_2" class="week_day" 
+                                        | W
+                                    .checkbox-inline
+                                      input type="checkbox" id="day_3" class="week_day" 
+                                        | T
+                                    .checkbox-inline
+                                      input type="checkbox" id="day_4" class="week_day"
+                                        | F
+                                    .checkbox-inline
+                                      input type="checkbox" id="day_5" class="week_day" 
+                                        | S
+                                    .checkbox-inline
+                                      input type="checkbox" id="day_6" class="week_day"
+                                        | S
+                              -# b.hidden_field :day, value: 'FFFFFFF'
+                              = hidden_field_tag(:ballyhoo_ballyhoo_day_attributes_day, "FFFFFFF", name: 'ballyhoo[ballyhoo_day_attributes][day]')
+                              hr
+                            .form-group
+                              label.col-sm-3.control-label
+                                | Ends:
+                              .col-sm-9.text-left
+                                .clearfix
+                                  / .checkbox-inline
+                                  /   input checked="checked" type="checkbox" 
+                                  /     | Never
+                                .row
+                                  .col-sm-3
+                                    .checkbox-inline
+                                      = radio_button_tag :end_date_btn, "After"
+                                      .text-left After
+                                  .col-sm-3
+                                    = text_field_tag :after_days, "", class: 'form-control repeat_days' 
+                                  .col-sm-4 Days
+                                .row style=("margin-top: 10px") 
+                                  .col-sm-3
+                                    .checkbox-inline
+                                      = radio_button_tag :end_date_btn, "On"
+                                      .text-left On
+                                  .col-sm-4
+                                    = text_field_tag :on_day, "", class: 'form-control dp repeat_days'
+                                -# b.hidden_field :end_repeat
+                                = hidden_field_tag(:ballyhoo_ballyhoo_day_attributes_end_repeat, "", name: 'ballyhoo[ballyhoo_day_attributes][end_repeat]')
+                              .form-group
+                                label.col-sm-3.control-label Summary
+                                .col-sm-9.text-left.repeat_text_modal Daily
+                          
+                    .modal-footer
+                      button.btn.btn-primary data-dismiss="modal" type="button"  Cancel
+                      button.btn.btn-primary#save_ballyhoo_day_btn type="button"  Save

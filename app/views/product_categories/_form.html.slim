@@ -1,0 +1,8 @@
+- use_table = defined?(use_table) ? use_table:false
+= simple_form_for category || ProductCategory.new, :html => { :class => 'form-inline' } do |f|
+  =content_holder(use_table, {class: "col-md-4"}) do
+    = f.input :name, input_html: {style: "width: 200px"}
+  =content_holder(use_table, {class: "col-md-4"}) do
+    = f.input :default_points
+  =content_holder(use_table, {class: "col-md-4"}) do
+    = f.button :submit

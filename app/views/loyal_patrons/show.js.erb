@@ -1,0 +1,6 @@
+<%if !@loyal_patron.errors.present?%>
+  $("#show_loyal_patron").html("<%= escape_javascript(render :partial => "loyal_patrons/loyal_patrons_profile").html_safe %>");
+<%else%>
+  var errors = <%= @loyal_patron.errors.full_messages.join(',') %>
+  alert(errors);
+<%end%>

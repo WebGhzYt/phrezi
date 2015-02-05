@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong Challenge:
+  = @enrolled_challenge.challenge
+p
+  strong Patron:
+  = @enrolled_challenge.patron_id
+p
+  strong Current points:
+  = @enrolled_challenge.current_points
+
+= link_to 'Edit', edit_challenge_enrolled_challenge_path(@challenge,@enrolled_challenge)
+'|
+= link_to 'Back', challenge_enrolled_challenges_path(@challenge)

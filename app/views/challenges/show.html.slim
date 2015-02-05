@@ -1,0 +1,38 @@
+.container
+  p#notice = notice
+
+  p
+    strong Name:
+    =< @challenge.name
+  p
+    strong Start date:
+    =< l @challenge.start_date
+  p
+    strong End date:
+    =< l @challenge.end_date
+
+  p
+    strong Challenge Prize:
+    =< @challenge.challenge_prize
+  p
+    strong Challenge Winner:
+    =< @challenge.challenge_winner
+  p
+    strong Win Differential:
+    =< @challenge.win_differential
+  p
+    strong Payout:
+    =< @challenge.payout
+  p
+    strong Points Required:
+    =< @challenge.finish_points
+  p
+    strong Friend Bonus:
+    =< @challenge.friend_bonus
+  p
+    strong Friend Limit:
+    =< @challenge.friend_limit
+
+  = link_to 'Edit', edit_challenge_path(@challenge)
+  '|
+  = link_to 'Cancel', challenges_path

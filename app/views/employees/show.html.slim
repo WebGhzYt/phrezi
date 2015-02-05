@@ -1,0 +1,21 @@
+p#notice
+  = notice
+p
+  strong
+    | Role:
+  = @employee.role
+p
+  strong
+    | User:
+  = @employee.user
+p
+  strong
+    | Establishment:
+  = @employee.establishment
+p
+  strong
+    | Enabled:
+  = @employee.enabled
+= link_to 'Edit', edit_employee_path(@employee)
+|  | 
+= link_to 'Cancel', employees_path

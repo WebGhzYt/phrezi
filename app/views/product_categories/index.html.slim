@@ -1,0 +1,18 @@
+
+h1
+  | Categroies
+  
+table.table.table-hover
+  thead
+    tr
+      th Categories
+      th Default Points
+      th
+  tbody
+    - @product_categories.each do |category|
+      - unless category.new_record?
+        tr
+          td= category.name
+          td= category.default_points
+          td delete
+= render partial: 'form', locals: {category: @product_category}

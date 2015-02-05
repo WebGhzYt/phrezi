@@ -1,0 +1,60 @@
+<h4>Patron Profile</h4>
+<div class="patron-profile">
+  <div class="clearfix">
+    <div class="media">
+      <%= image_tag "ava.jpg", :class=>"media-object pull-left" %>
+      <div class="media-body">
+        <div class="media-heading clearfix">
+          <h4 class="text-primary">
+            <%= @loyal_patron.name %>
+            <span class="pull-right">
+              <a href="<%= @loyal_patron.email%>"><i class="fa fa-envelope"></i></a>
+              <a href="<%= @loyal_patron.twitter%>"><i class="fa fa-twitter"></i></a>
+              <a href="<%= @loyal_patron.facebook%>"><i class="fa fa-facebook"></i></a>
+            </span>
+          </h4>
+        </div>
+        <p>Current Credit: <%= @loyal_patron.credit %></p>
+        <p>Last Checkin: 16:05PM 25 Jun 2014</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td class="text-right"><strong></strong></td>
+            <td><span class="label label-primary"><%= LoyalPatron.active_boosters(@active_challenges.id,current_establishment.id,@loyal_patron.id) %></span> <strong>Active</strong></td>
+            <td><span class="label label-warning"><%= LoyalPatron.loyal_patrons_boosters(current_establishment.id,@loyal_patron.id) %></span> <strong>Total</strong></td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Standard Purchases</strong></td>
+            <td><%= LoyalPatron.active_boosters(@active_challenges.id,current_establishment.id,@loyal_patron.id) %></td>
+            <td><%= LoyalPatron.loyal_patrons_boosters(current_establishment.id,@loyal_patron.id) %></td>
+
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Complete Task</strong></td>
+            <td>1,231</td>
+            <td>2,118</td>
+
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Point</strong></td>
+            <td><%= LoyalPatron.points(@active_challenges.id,@loyal_patron.id) %></td>
+            <td><%= LoyalPatron.points(@active_challenges.id,@loyal_patron.id) %></td>
+
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Award Credit</strong></td>
+            <td>$125</td>
+            <td>$778</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

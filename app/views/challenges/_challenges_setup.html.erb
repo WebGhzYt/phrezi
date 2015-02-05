@@ -1,0 +1,113 @@
+<div class="panel-body box-im">
+  <%= form_for(@challenge, :html=> {:class=> 'form-horizontal'}, :remote=> true) do |f|%>
+    <div class="wrapper-div">
+      <div class="l-div"><h4 class="p-text">Scheduling</h4></div>
+      <div class="r-div">
+        <div class="form-group control-group string required">
+          <label class="col-sm-4 c-label string required" for="">Start Date:</label>
+          <div class="col-sm-5 string required">
+            <%= f.text_field :start_date, value:(@upcoming_challenges.start_date.strftime("%Y-%m-%d") if @upcoming_challenges.present?), class: 'form-control string required datetimepicker-start'%>
+            </div>
+          </div>
+          <div class="form-group control-group string required">
+            <label class="col-sm-4 c-label string required" for="">Duration:</label>
+            <div class="col-sm-8 string required">
+              <div style="float: left; padding-left: 0px;" class="col-sm-6">
+                <%= f.text_field :duration, value: "#{@upcoming_challenges ? ((@upcoming_challenges.end_date + 1.day) - @upcoming_challenges.start_date).to_i/ 1.day : ''}", :class=>"form-control"%>
+              </div>
+              <div style="float: left;">
+                Days
+              </div>
+              <a href="##" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a>
+            </div>
+          </div>
+          <div class="form-group control-group string required">
+            <label class="col-sm-4 c-label string required" for="">End Date:</label>
+            <div class="col-sm-8 string" id="display_end_date">
+              <% if @upcoming_challenges.present? %>
+                <%= @upcoming_challenges.end_date.to_date %>
+              <% end %>
+            </div>
+          </div>
+          <div class="form-group control-group string required">
+            <label class="col-sm-4 c-label string required" for="">Repeat:</label>
+            <div class="col-sm-8 string required">
+              <%= f.check_box :repeat %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrapper-div">
+        <div class="l-div">
+          <h4 class="p-text">Number of Winners</h4>
+          <p class="p1-text">(% of all Participants)</p>
+        </div>
+        <div class="r-div h-div">
+          <div class="form-group control-group string required">
+            <label class="col-sm-4 c-label string required" for="">Winner %:</label>
+            <div class="col-sm-8 string required">
+              <div class="col-sm-8" style="padding-left: 0px;">
+                <%= f.text_field :challenge_winner, value:(@upcoming_challenges.challenge_winner if @upcoming_challenges.present?), placeholder: 'Enter %',  class: 'form-control string percentage required',:onblur=>"append_text_field(this);"%></div>
+                <a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wrapper-div">
+          <div class="l-div">
+            <h4 class="p-text">Payout</h4>
+            <p class="p1-text">(% of gross sales)</p>
+          </div>
+          <div class="r-div">
+            <div class="form-group control-group string required">
+              <label class="col-sm-4 c-label string required" for="">Prize %:</label>
+              <div class="col-sm-8 string required">
+                <div class="col-sm-8" style="padding-left: 0px;">
+                  <%= f.text_field :challenge_prize, value:(@upcoming_challenges.challenge_prize if @upcoming_challenges.present?), placeholder: 'Enter %',  class: 'form-control string percentage required',:onblur=>"append_text_field(this);"%></div>
+                  <a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a>
+                </div>
+              </div>
+              <div class="form-group control-group string required">
+                <label class="col-sm-4 string required c-label" for="">Flat Rate %:</label>
+                <div class="col-sm-8 string required">
+                  <div class="col-sm-8" style="padding-left: 0px;">
+                    <%= f.text_field :payout, value:(@upcoming_challenges.payout if @upcoming_challenges.present?), placeholder: 'Enter %',  class: 'form-control string percentage required' ,:onblur=>"append_text_field(this);"%></div>
+                    <a hre="#" class="thetooltip" data-toggle="tooltip" data-placement="top" title="Sample Tooltip">?</a>
+                  </div>
+                </div>
+
+                <%= f.hidden_field :win_differential, value: 10 %>
+                <span class="divider"></span>
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 col-sm-44 c-label string required" for="">Phrenzi Fee:</label>
+                  <div class="col-sm-8 string required">
+                    2%
+                  </div>
+                </div>
+                <div class="form-group control-group string required">
+                  <label class="col-sm-4 col-sm-44 c-label string required" for="">Total Payout:</label>
+                  <div class="col-sm-8 string required">
+                    <span id="calculate_payout">
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-left: 45%;">
+              <div class="col-sm-8 col-sm-offset-4">
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modal-schedule">Schedule</button>
+              </div>
+            </div>
+          <%end%>
+        </div>
+
+
+
+
+
+
+
+
+
+

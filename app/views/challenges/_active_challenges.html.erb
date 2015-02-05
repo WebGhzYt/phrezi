@@ -1,0 +1,127 @@
+<div class="panel-body  box-im">
+  <div id="active_challenge_main_div">
+    <%if @active_challenges.nil?%>
+      <table class="table width65">
+        <tbody>
+          <tr>
+            <td>
+              No Active Challenge
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <%else%>
+      <table class="table width65">
+        <tbody>
+          <tr>
+            <td class="pull-right no-border">
+              <h3>Time Remaining:</h3>
+            </td>
+            <td class="no-border">
+              <h3><%= ((@active_challenges.end_date - DateTime.now).to_i/ 1.day) + 1%> Days</h3>
+            </td>
+          </tr>
+          <tr>
+            <td class="pull-right no-border"><h3>Participants:</h3></td>
+            <td class="no-border"><h3><%= @active_challenges.participants %></h3></td>
+          </tr>
+          <tr>
+            <td class="pull-right no-border"><h3>Number of Winners:</h3></td>
+            <td class="no-border"><h3><%= ((@active_challenges.challenge_winner/100)*(@active_challenges.participants.to_i)).ceil %></h3></td>
+            <td class="no-border active_challenge_heading">
+              <h4>
+                <%= "(#{(@active_challenges.challenge_winner)}%)"%>
+              </h4>
+            </td>
+          </tr>
+          <tr>
+            <td class="pull-right no-border"><h3>Gross Sales:</h3></td>
+            <td class="no-border"><h3><span><%= number_to_currency(@active_challenges.gross_sales) %></span></h3></td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <br/>
+      <table class="table width65">
+        <tbody>
+          <tr>
+            <td class="pull-right no-border"><h3>Challenge Prize Payout:</h3></td>
+              <td class="no-border"><h3>
+                <%= number_to_currency(@active_challenges.gross_sales*@active_challenges.challenge_prize*0.01) %>
+              </h3></td>
+            <td class="no-border"></td>
+            <td class="no-border active_challenge_heading">
+              <h4>
+                <%= "(#{@active_challenges.challenge_prize}%)"%>
+              </h4>
+            </td>
+          </tr>
+          <tr>
+            <td class="pull-right no-border"><h3>Flat Rate Payout:</h3></td>
+            <td class="no-border"><h3><%= number_to_currency(@active_challenges.gross_sales*@active_challenges.payout*0.01) %></h3></td>
+            <td class="no-border"></td>
+            <td class="no-border active_challenge_heading">
+              <h4>
+                <%= "(#{@active_challenges.payout}%)"%>
+              </h4>
+            </td>
+          </tr>
+          <tr>
+            <td class="pull-right no-border"><h3>Phrenzi Fee:</h3></td>
+            <td class="no-border"><h3><%= number_to_currency(@active_challenges.gross_sales*0.02) %></h3></td>
+            <td class="no-border"></td>
+            <td class="no-border active_challenge_heading">
+              <h4>(2%)</h4>
+            </td>
+          </tr>
+          <tr>
+            <td class="pull-right no-border"><h3>Total Challenge Cost:</h3></td>
+            <td class="no-border"><h3><%= number_to_currency((@active_challenges.challenge_prize + @active_challenges.payout + 2)*0.01*@active_challenges.gross_sales) %></h3></td>
+            <td class="no-border"></td>
+            <td class="no-border active_challenge_heading">
+              <h4>
+                <%= "(#{(@active_challenges.challenge_prize + @active_challenges.payout + 2)}%)" %>
+              </h4>
+            </td
+          </tr>
+        </tbody>
+      </table>
+    <%end%>
+  </div>
+</div>
+<%unless @active_challenges.nil?%>
+  <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#myModal" style="margin: -433px 5px; !important;">
+    Edit
+  </button>
+<%end%>
+<%unless @active_challenges.nil?%>
+  <%=render partial: "challenges/edit_challenge"  %>
+<%end%>
+
+<script type="text/javascript">
+//   <% if @active_challenges %>
+//       start_date = "<%= @active_challenges.start_date %>"
+//       date = new Date(start_date.split(' ')[0]);
+//       offset = parseInt(- date.getTimezoneOffset() / 60).toString();
+//       if(offset.indexOf('-') == 0){
+//         start_date = date.setDate(date.getDate() + 1);
+//       }
+//       else{
+//         start_date = date.setDate(date.getDate());
+//       }
+//       var start_date = new Date(start_date);
+
+
+//       end_date = "<%= @active_challenges.end_date %>"
+//       date = new Date(end_date.split(' ')[0]);
+//       offset = parseInt(- date.getTimezoneOffset() / 60).toString();
+//       if(offset.indexOf('-') == 0){
+//         end_date = date.setDate(date.getDate() + 1);
+//       }
+//       else{
+//         end_date = date.setDate(date.getDate());
+//       }
+//       var end_date = new Date(end_date);
+//       var show_event_on_calender = true
+//   <% end %>
+</script>

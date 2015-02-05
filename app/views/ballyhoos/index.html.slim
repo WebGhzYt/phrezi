@@ -1,0 +1,67 @@
+h1 #{@ballyhoo_type}
+
+p.lead= "Active"
+table.table.table-hover.table-bordered
+  thead
+    == render 'table_header'
+  tbody
+    - if @ballyhoos[:active].empty?
+      tr
+        td{colspan=8}= 'No Active Ballyhoo Found'
+    - else
+      - @ballyhoos[:active].each do |ballyhoo|
+        = render partial: 'table_body', locals: {ballyhoo: ballyhoo, status: 'active'}
+br
+
+p.lead= "Upcoming"
+table.table.table-hover.table-bordered
+  thead
+    == render 'table_header'
+  tbody
+    - if @ballyhoos[:upcoming].empty?
+      tr
+        td{colspan=8}= 'No Upcoming Ballyhoo Found'
+    - else
+      - @ballyhoos[:upcoming].each do |ballyhoo|
+        = render partial: 'table_body', locals: {ballyhoo: ballyhoo, status: 'upcoming'}
+br
+
+p.lead= "Paused"
+table.table.table-hover.table-bordered
+  thead
+    == render 'table_header'
+  tbody
+    - if @ballyhoos[:paused].empty?
+      tr
+        td{colspan=8}= 'No Paused Ballyhoo Found'
+    - else
+      - @ballyhoos[:paused].each do |ballyhoo|
+        = render partial: 'table_body', locals: {ballyhoo: ballyhoo, status: 'paused'}
+br
+
+p.lead= "Archived"
+table.table.table-hover.table-bordered
+  thead
+    == render 'table_header'
+  tbody
+    - if @ballyhoos[:archived].empty?
+      tr
+        td{colspan=8}= 'No Archived Ballyhoo Found'
+    - else
+      - @ballyhoos[:archived].each do |ballyhoo|
+        = render partial: 'table_body', locals: {ballyhoo: ballyhoo, status: 'archived'}
+br
+
+p.lead= "Uncategorized"
+table.table.table-hover.table-bordered
+  thead
+    == render 'table_header'
+  tbody
+    - if @ballyhoos[:uncategorized].empty?
+      tr
+        td{colspan=8}= 'No Uncategorized Ballyhoo Found'
+    - else
+      - @ballyhoos[:uncategorized].each do |ballyhoo|
+        = render partial: 'table_body', locals: {ballyhoo: ballyhoo, status: 'uncategorized'}
+
+= link_to "New #{@ballyhoo_type}", sti_ballyhoo_path(@ballyhoo_type, nil, :new)
